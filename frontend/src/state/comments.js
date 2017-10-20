@@ -1,6 +1,6 @@
-import { actionType as post } from "./posts";
+import { type as post } from "./posts";
 
-export const actionType = {
+export const type = {
   comment: {
     create: "create comment",
     edit: "edit comment",
@@ -22,22 +22,19 @@ export type Comment = {
 let nextId = 0;
 
 export const comment = {
-  create: ({ parentId, body, author, voteScore }: Post) => ({
-    type: action.create,
+  create: ({ parentId, body, author }: Comment) => ({
+    type: type.comment.create,
     payload: {
-      id: ++nextId,
+      parentId,
       timestamp: Date.now(),
-      title,
       body,
-      author,
-      category,
-      voteScore
+      author
     }
   }),
   edit: ({ id, title, body, author, category, voteScore }: Post) => ({
-    type: action.edit,
+    type: type.comment.edit,
     payload: {
-      id: ++nextId,
+      id,
       timestamp: Date.now(),
       title,
       body,
@@ -47,32 +44,52 @@ export const comment = {
     }
   }),
   remove: id => ({
-    type: action.remove,
+    type: type.comment.remove,
     payload: {
       id
     }
   })
 };
 
-export const reducer = (state = {}, action) => {
-  const { comment } = actionType;
+const initialState = {
+  nextId: 0
+};
+
+export const reducer = (state = initialState, action) => {
+  const { comment } = type;
+  const { payload } = action;
+
   switch (action.type) {
     case comment.create:
+      return {
+        ...state,
+        nextId: state.nextId + 1,
+        comments: {
+          ...state.comments,
+          [nextId]: {
+            ...payload,
+            id: nextId,
+            deleted: false,
+            parentDeleted: false,
+            voteScore: 0
+          }
+        }
+      };
     case comment.edit:
       return {
         ...state,
         comments: {
-          ...comments,
-          [action.payload.id]: action.payload
+          ...state.comments,
+          [payload.id]: payload
         }
       };
     case comment.remove:
       return {
         ...state,
         comments: {
-          ...comments,
-          [action.payload.id]: {
-            ...state.comments[action.payload.id],
+          ...state.comments,
+          [payload.id]: {
+            ...state.comments[payload.id],
             deleted: true
           }
         }
@@ -80,7 +97,7 @@ export const reducer = (state = {}, action) => {
     case post.remove:
       const newState = { ...state, comments: { ...state.comments } };
       for (const key in newState.comments) {
-        if (newState.comments[key].parentId === action.payload.id) {
+        if (newState.comments[key].parentId === payload.id) {
           newState.comments[key].parentDeleted = true;
         }
       }

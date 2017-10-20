@@ -1,4 +1,4 @@
-export const actionType = {
+export const type = {
   post: {
     create: "create post",
     edit: "edit post",
@@ -20,34 +20,30 @@ export type Post = {
 let nextId = 0;
 
 export const post = {
-  create: ({ title, body, author, category, voteScore }: Post) => ({
-    type: action.create,
+  create: ({ title, body, author, category }: Post) => ({
+    type: type.post.create,
     payload: {
-      id: ++nextId,
       timestamp: Date.now(),
       title,
       body,
       author,
-      category,
-      voteScore,
-      deleted: false
+      category
     }
   }),
   edit: ({ id, title, body, author, category, voteScore }: Post) => ({
-    type: action.edit,
+    type: type.post.edit,
     payload: {
-      id: ++nextId,
+      id,
       timestamp: Date.now(),
       title,
       body,
       author,
       category,
-      voteScore,
-      deleted: false
+      voteScore
     }
   }),
   remove: id => ({
-    type: action.remove,
+    type: type.post.remove,
     payload: {
       id
     }
@@ -55,24 +51,39 @@ export const post = {
 };
 
 export const reducer = (state = {}, action) => {
-  const { post } = actionType;
+  const { post } = type;
+  const { payload } = action;
+
   switch (action.type) {
     case post.create:
+      return {
+        ...state,
+        nextId: state.nextId + 1,
+        posts: {
+          ...state.posts,
+          [nextId]: {
+            ...payload,
+            id: nextId,
+            deleted: false,
+            voteScore: 0
+          }
+        }
+      };
     case post.edit:
       return {
         ...state,
         posts: {
-          ...posts,
-          [action.payload.id]: action.payload
+          ...state.posts,
+          [payload.id]: payload
         }
       };
     case post.remove:
       return {
         ...state,
         posts: {
-          ...posts,
-          [action.payload.id]: {
-            ...state.posts[action.payload.id],
+          ...state.posts,
+          [payload.id]: {
+            ...state.posts[payload.id],
             deleted: true
           }
         }
