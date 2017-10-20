@@ -1,9 +1,7 @@
 export const type = {
-  post: {
-    create: "create post",
-    edit: "edit post",
-    remove: "remove post"
-  }
+  CREATE_POST: "create post",
+  EDIT_POST: "edit post",
+  REMOVE_POST: "remove post"
 };
 
 export type Post = {
@@ -17,11 +15,9 @@ export type Post = {
   deleted: boolean //	Flag if post has been 'deleted' (inaccessible by the front end), (default: false)
 };
 
-let nextId = 0;
-
 export const post = {
   create: ({ title, body, author, category }: Post) => ({
-    type: type.post.create,
+    type: type.CREATE_POST,
     payload: {
       timestamp: Date.now(),
       title,
@@ -31,7 +27,7 @@ export const post = {
     }
   }),
   edit: (id, { title, body, author, category, voteScore }: Post) => ({
-    type: type.post.edit,
+    type: type.EDIT_POST,
     payload: {
       id,
       timestamp: Date.now(),
@@ -43,33 +39,37 @@ export const post = {
     }
   }),
   remove: id => ({
-    type: type.post.remove,
+    type: type.REMOVE_POST,
     payload: {
       id
     }
   })
 };
 
-export const reducer = (state = {}, action) => {
-  const { post } = type;
+const initialState = {
+  nextId: 0
+};
+
+export const reducer = (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case post.create:
+    case type.CREATE_POST:
+      const id = state.nextId;
       return {
         ...state,
-        nextId: state.nextId + 1,
+        nextId: id + 1,
         posts: {
           ...state.posts,
-          [nextId]: {
+          [id]: {
             ...payload,
-            id: nextId,
+            id,
             deleted: false,
             voteScore: 0
           }
         }
       };
-    case post.edit:
+    case type.EDIT_POST:
       return {
         ...state,
         posts: {
@@ -77,7 +77,7 @@ export const reducer = (state = {}, action) => {
           [payload.id]: payload
         }
       };
-    case post.remove:
+    case type.REMOVE_POST:
       return {
         ...state,
         posts: {

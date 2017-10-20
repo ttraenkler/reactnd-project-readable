@@ -1,12 +1,13 @@
-import { post, type } from "./posts";
+import { createStore } from "redux";
+import { post, type, reducer } from "./posts";
+
+const body = "body",
+  author = "author",
+  title = "title",
+  category = "category",
+  voteScore = 1;
 
 describe("post action creator", () => {
-  const body = "body",
-    author = "author",
-    title = "title",
-    category = "category",
-    voteScore = 1;
-
   it('should create a "create post" action', () => {
     const action = post.create({
       body,
@@ -15,7 +16,7 @@ describe("post action creator", () => {
       category
     });
     expect(action).toEqual({
-      type: type.post.create,
+      type: type.CREATE_POST,
       payload: {
         body,
         author,
@@ -35,7 +36,7 @@ describe("post action creator", () => {
       voteScore
     });
     expect(action).toEqual({
-      type: type.post.edit,
+      type: type.EDIT_POST,
       payload: {
         id: 1,
         body,
@@ -51,8 +52,33 @@ describe("post action creator", () => {
   it('should create an "remove post" action', () => {
     const action = post.remove(1);
     expect(action).toEqual({
-      type: type.post.remove,
+      type: type.REMOVE_POST,
       payload: { id: 1 }
+    });
+  });
+});
+
+describe("process post actions", () => {
+  const store = createStore(reducer);
+  it("should update the posts state correctly", () => {
+    const testPost = post.create({
+      body,
+      author,
+      title,
+      category
+    });
+    store.dispatch(testPost);
+    expect(store.getState().posts).toEqual({
+      0: {
+        body,
+        author,
+        title,
+        category,
+        deleted: false,
+        id: 0,
+        timestamp: testPost.payload.timestamp,
+        voteScore: 0
+      }
     });
   });
 });

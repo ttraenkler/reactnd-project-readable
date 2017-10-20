@@ -1,20 +1,23 @@
-import { comment, type } from "./comments";
+import { createStore } from "redux";
+import { comment, type, reducer } from "./comments";
+
+const body = "body",
+  author = "author",
+  title = "title",
+  category = "redux",
+  voteScore = 1,
+  parentId = 1;
 
 describe("comment action creator", () => {
-  const body = "body",
-    author = "author",
-    title = "title",
-    voteScore = 1;
-
   it('should create a "create comment" action', () => {
-    const action = comment.create(1, {
+    const action = comment.create(parentId, {
       body,
       author
     });
     expect(action).toEqual({
-      type: type.comment.create,
+      type: type.CREATE_COMMENT,
       payload: {
-        parentId: 1,
+        parentId,
         body,
         author,
         timestamp: action.payload.timestamp
@@ -23,15 +26,14 @@ describe("comment action creator", () => {
   });
 
   it('should create an "edit comment" action', () => {
-    const action = comment.edit(1, {
-      parentId: 1,
+    const action = comment.edit(parentId, {
       body,
       author,
       title,
       voteScore
     });
     expect(action).toEqual({
-      type: type.comment.edit,
+      type: type.EDIT_COMMENT,
       payload: {
         id: 1,
         body,
@@ -46,8 +48,31 @@ describe("comment action creator", () => {
   it('should create an "remove comment" action', () => {
     const action = comment.remove(1);
     expect(action).toEqual({
-      type: type.comment.remove,
+      type: type.REMOVE_COMMENT,
       payload: { id: 1 }
+    });
+  });
+});
+
+describe("process comment actions", () => {
+  const store = createStore(reducer);
+  it("should update the posts state correctly", () => {
+    const testPost = comment.create(parentId, {
+      body,
+      author
+    });
+    store.dispatch(testPost);
+    expect(store.getState().comments).toEqual({
+      0: {
+        body,
+        author,
+        deleted: false,
+        id: 0,
+        timestamp: testPost.payload.timestamp,
+        voteScore: 0,
+        parentDeleted: false,
+        parentId
+      }
     });
   });
 });

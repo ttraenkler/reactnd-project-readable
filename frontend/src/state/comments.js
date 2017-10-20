@@ -1,11 +1,9 @@
-import { type as post } from "./posts";
+import { type as postType } from "./posts";
 
 export const type = {
-  comment: {
-    create: "create comment",
-    edit: "edit comment",
-    remove: "remove comment"
-  }
+  CREATE_COMMENT: "create comment",
+  EDIT_COMMENT: "edit comment",
+  REMOVE_COMMENT: "remove comment"
 };
 
 export type Comment = {
@@ -19,11 +17,9 @@ export type Comment = {
   parentDeleted: boolean //	Flag for when the the parent post was deleted, but the comment itself was not.
 };
 
-let nextId = 0;
-
 export const comment = {
   create: (postId, { body, author }: Comment) => ({
-    type: type.comment.create,
+    type: type.CREATE_COMMENT,
     payload: {
       parentId: postId,
       timestamp: Date.now(),
@@ -32,7 +28,7 @@ export const comment = {
     }
   }),
   edit: (id, { title, body, author, category, voteScore }: Post) => ({
-    type: type.comment.edit,
+    type: type.EDIT_COMMENT,
     payload: {
       id,
       timestamp: Date.now(),
@@ -43,7 +39,7 @@ export const comment = {
     }
   }),
   remove: id => ({
-    type: type.comment.remove,
+    type: type.REMOVE_COMMENT,
     payload: {
       id
     }
@@ -55,26 +51,26 @@ const initialState = {
 };
 
 export const reducer = (state = initialState, action) => {
-  const { comment } = type;
   const { payload } = action;
 
   switch (action.type) {
-    case comment.create:
+    case type.CREATE_COMMENT:
+      const id = state.nextId;
       return {
         ...state,
-        nextId: state.nextId + 1,
+        nextId: id + 1,
         comments: {
           ...state.comments,
-          [nextId]: {
+          [id]: {
             ...payload,
-            id: nextId,
+            id,
             deleted: false,
             parentDeleted: false,
             voteScore: 0
           }
         }
       };
-    case comment.edit:
+    case type.EDIT_COMMENT:
       return {
         ...state,
         comments: {
@@ -82,7 +78,7 @@ export const reducer = (state = initialState, action) => {
           [payload.id]: payload
         }
       };
-    case comment.remove:
+    case type.REMOVE_COMMENT:
       return {
         ...state,
         comments: {
@@ -93,7 +89,7 @@ export const reducer = (state = initialState, action) => {
           }
         }
       };
-    case post.remove:
+    case postType.REMOVE_POST:
       const newState = { ...state, comments: { ...state.comments } };
       for (const key in newState.comments) {
         if (newState.comments[key].parentId === payload.id) {
