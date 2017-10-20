@@ -30,7 +30,7 @@ export const post = {
       category
     }
   }),
-  edit: ({ id, title, body, author, category, voteScore }: Post) => ({
+  edit: (id, { title, body, author, category, voteScore }: Post) => ({
     type: type.post.edit,
     payload: {
       id,
