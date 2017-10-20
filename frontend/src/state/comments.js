@@ -22,16 +22,16 @@ export type Comment = {
 let nextId = 0;
 
 export const comment = {
-  create: ({ parentId, body, author }: Comment) => ({
+  create: (postId, { body, author }: Comment) => ({
     type: type.comment.create,
     payload: {
-      parentId,
+      parentId: postId,
       timestamp: Date.now(),
       body,
       author
     }
   }),
-  edit: ({ id, title, body, author, category, voteScore }: Post) => ({
+  edit: (id, { title, body, author, category, voteScore }: Post) => ({
     type: type.comment.edit,
     payload: {
       id,
@@ -39,7 +39,6 @@ export const comment = {
       title,
       body,
       author,
-      category,
       voteScore
     }
   }),
