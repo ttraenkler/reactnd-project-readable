@@ -6,6 +6,16 @@ import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 
+async function fetchCategories() {
+  const url = "http://localhost:3001/categories";
+  const response = await fetch(url, {
+    headers: { Authorization: "whatever-you-want" }
+  });
+  const { body } = response;
+}
+
+fetchCategories();
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

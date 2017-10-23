@@ -4,7 +4,6 @@ import { comment, type, reducer } from "./comments";
 const body = "body",
   author = "author",
   title = "title",
-  category = "redux",
   voteScore = 1,
   parentId = 1;
 
