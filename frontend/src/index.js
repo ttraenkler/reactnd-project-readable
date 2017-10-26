@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import store from "./state/store";
 import "./index.css";
 import App from "./App";
@@ -11,14 +12,17 @@ async function fetchCategories() {
   const response = await fetch(url, {
     headers: { Authorization: "whatever-you-want" }
   });
-  const { body } = response;
+  const json = await response.json();
+  console.log(json.categories);
 }
 
 fetchCategories();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );
