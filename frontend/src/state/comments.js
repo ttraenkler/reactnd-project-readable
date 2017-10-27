@@ -6,7 +6,7 @@ export const type = {
   REMOVE_COMMENT: "remove comment"
 };
 
-export type Comment = {
+export type CommentType = {
   id: string, // Unique identifier
   parentId: string, // id of the parent post
   timestamp: number, //	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
@@ -18,7 +18,7 @@ export type Comment = {
 };
 
 export const comment = {
-  create: (postId, { body, author }: Comment) => ({
+  create: (postId, { body, author }: CommentType) => ({
     type: type.CREATE_COMMENT,
     payload: {
       parentId: postId,
@@ -27,12 +27,11 @@ export const comment = {
       author
     }
   }),
-  edit: (id, { title, body, author, category, voteScore }: Post) => ({
+  edit: (id, { body, author, voteScore }: Post) => ({
     type: type.EDIT_COMMENT,
     payload: {
       id,
       timestamp: Date.now(),
-      title,
       body,
       author,
       voteScore

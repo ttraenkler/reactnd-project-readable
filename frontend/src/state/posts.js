@@ -4,7 +4,7 @@ export const type = {
   REMOVE_POST: "remove post"
 };
 
-export type Post = {
+export type PostType = {
   id: string, //	Unique identifier
   timestamp: number, //	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
   title: string, //	Post title
@@ -16,7 +16,7 @@ export type Post = {
 };
 
 export const post = {
-  create: ({ title, body, author, category }: Post) => ({
+  create: ({ title, body, author, category }: PostType) => ({
     type: type.CREATE_POST,
     payload: {
       timestamp: Date.now(),
@@ -26,7 +26,7 @@ export const post = {
       category
     }
   }),
-  edit: (id, { title, body, author, category, voteScore }: Post) => ({
+  edit: (id, { title, body, author, category, voteScore }: PostType) => ({
     type: type.EDIT_POST,
     payload: {
       id,
