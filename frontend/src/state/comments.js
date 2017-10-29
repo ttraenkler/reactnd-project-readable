@@ -1,4 +1,5 @@
 import { type as postType } from "./posts";
+import { uuidv4 } from "../utils";
 
 export const type = {
   CREATE_COMMENT: "create comment",
@@ -45,19 +46,14 @@ export const comment = {
   })
 };
 
-const initialState = {
-  nextId: 0
-};
-
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = {}, action) => {
   const { payload } = action;
 
   switch (action.type) {
     case type.CREATE_COMMENT:
-      const id = state.nextId;
+      const id = uuidv4();
       return {
         ...state,
-        nextId: id + 1,
         comments: {
           ...state.comments,
           [id]: {

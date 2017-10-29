@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  text-align: left;
+  margin: 50px;
 }
 
 .App-logo {
@@ -25,4 +26,51 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+
+h1 {
+  font-size: 32px;
+  color: rgb(58, 58, 112)
+}
+
+h2 {
+  font-size: 20px;
+  color: rgb(120, 120, 243)
+}
+
+p {
+  font-size: 16px;
+}
+
+.posts {
+  column-count: 3;
+  column-gap: 25px;
+  column-rule-color: rgb(219, 219, 219);
+  column-rule-width: 1px;
+  column-rule-style: solid;
+}
+
+.post-header {
+  font-size: 12px;
+  color: gray;
+}
+
+.post-footer {
+  font-size: 12px;
+  color: gray;
+}
+
+.categories {
+  font-size: 12px;
+  color: darkblue;
+}
+
+.post {
+  margin: 25px 10px;
+}
+
+a, u {
+  text-decoration: none;
+  font-size: 14px;
+  color: gray;
 }

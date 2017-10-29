@@ -1,3 +1,5 @@
+import { uuidv4 } from "../utils";
+
 export const type = {
   CREATE_POST: "create post",
   EDIT_POST: "edit post",
@@ -46,19 +48,14 @@ export const post = {
   })
 };
 
-const initialState = {
-  nextId: 0
-};
-
-export const reducer = (state = initialState, action) => {
+export const reducer = (state = {}, action) => {
   const { payload } = action;
 
   switch (action.type) {
     case type.CREATE_POST:
-      const id = state.nextId;
+      const id = uuidv4();
       return {
         ...state,
-        nextId: id + 1,
         posts: {
           ...state.posts,
           [id]: {

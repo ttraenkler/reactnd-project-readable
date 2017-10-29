@@ -9,7 +9,7 @@ type Props = {
 class Posts extends PureComponent<Props> {
   render() {
     return (
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className="posts">
         {this.props.posts.map(post => <Post post={post} />)}
       </div>
     );
