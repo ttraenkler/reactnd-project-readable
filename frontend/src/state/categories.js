@@ -1,15 +1,15 @@
 export const type = {
-  CREATE_CATEGORY: "create category",
+  LOAD_CATEGORIES: "create categories",
   REMOVE_CATEGORY: "remove category"
 };
 
 export type CategoryType = string;
 
 export const category = {
-  create: (category: CategoryType) => ({
-    type: type.CREATE_CATEGORY,
+  load: (categories: CategoryType) => ({
+    type: type.LOAD_CATEGORIES,
     payload: {
-      category
+      categories
     }
   }),
   remove: (category: CategoryType) => ({
@@ -20,20 +20,15 @@ export const category = {
   })
 };
 
-export const reducer = (state = {}, action) => {
+export const reducer = (state = [], action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case type.CREATE_CATEGORY:
-      return {
-        ...state,
-        [payload.category]: {}
-      };
+    case type.LOAD_CATEGORIES:
+      return [...state, ...payload.categories];
     case type.REMOVE_CATEGORY:
-      return {
-        ...state,
-        [payload.category]: undefined
-      };
+      const i = state.indexOf(payload.category);
+      return state.splice(i);
     default:
       return state;
   }

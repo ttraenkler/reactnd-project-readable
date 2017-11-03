@@ -1,5 +1,5 @@
 import { type as postType } from "./posts";
-import { uuidv4 } from "../utils";
+import { uuidv1 as uuid } from "uuid";
 
 export const type = {
   CREATE_COMMENT: "create comment",
@@ -51,44 +51,35 @@ export const reducer = (state = {}, action) => {
 
   switch (action.type) {
     case type.CREATE_COMMENT:
-      const id = uuidv4();
+      const id = uuid();
       return {
         ...state,
-        comments: {
-          ...state.comments,
-          [id]: {
-            ...payload,
-            id,
-            deleted: false,
-            parentDeleted: false,
-            voteScore: 0
-          }
+        [id]: {
+          ...payload,
+          id,
+          deleted: false,
+          parentDeleted: false,
+          voteScore: 0
         }
       };
     case type.EDIT_COMMENT:
       return {
         ...state,
-        comments: {
-          ...state.comments,
-          [payload.id]: payload
-        }
+        [payload.id]: payload
       };
     case type.REMOVE_COMMENT:
       return {
         ...state,
-        comments: {
-          ...state.comments,
-          [payload.id]: {
-            ...state.comments[payload.id],
-            deleted: true
-          }
+        [payload.id]: {
+          ...state[payload.id],
+          deleted: true
         }
       };
     case postType.REMOVE_POST:
-      const newState = { ...state, comments: { ...state.comments } };
+      const newState = { ...state };
       for (const key in newState.comments) {
-        if (newState.comments[key].parentId === payload.id) {
-          newState.comments[key].parentDeleted = true;
+        if (newState[key].parentId === payload.id) {
+          newState[key].parentDeleted = true;
         }
       }
       return newState;

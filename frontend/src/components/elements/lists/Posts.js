@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import { connect } from "react-redux";
 import type PostType from "../../../state/posts";
 import Post from "../Post";
 
@@ -8,12 +9,23 @@ type Props = {
 
 class Posts extends PureComponent<Props> {
   render() {
+    const { posts, category, sortBy } = this.props;
     return (
       <div className="posts">
-        {this.props.posts.map(post => <Post post={post} />)}
+        {Object.keys(posts)
+          .map(key => posts[key])
+          .filter(post => (category ? post.category === category : true))
+          .sort(
+            sortBy === "votes"
+              ? (a, b) => b.voteScore - a.voteScore
+              : (a, b) => b.timestamp - a.timestamp
+          )
+          .map(post => <Post key={post.id} data={post} />)}
       </div>
     );
   }
 }
 
-export default Posts;
+export default connect(state => ({
+  posts: state.posts
+}))(Posts);

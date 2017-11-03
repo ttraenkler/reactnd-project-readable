@@ -1,13 +1,21 @@
 import React, { PureComponent } from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-class Categories extends PureComponent {
+export class Categories extends PureComponent {
   render() {
+    const { categories } = this.props;
     return (
       <p className="categories">
-        {this.props.categories.map(category => `${category} `)}
+        Filter by categories: <Link to="/">All </Link>
+        {categories.map(category => (
+          <Link key={category.path} to={`/category/${category.path}`}>
+            {category.name}{" "}
+          </Link>
+        ))}
       </p>
     );
   }
 }
 
-export default Categories;
+export default connect(state => ({ categories: state.categories }))(Categories);

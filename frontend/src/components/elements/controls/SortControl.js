@@ -1,9 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 
-class SortControl extends Component {
-  render() {
-    return <div>^</div>;
-  }
-}
+const sortOptions = ["votes", "time"];
+
+const SortControl = ({ onChange }) => (
+  <div>
+    Sorted by{" "}
+    <select onChange={onChange}>
+      {sortOptions.map(option => (
+        <option key={option} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
+  </div>
+);
 
 export default SortControl;

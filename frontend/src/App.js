@@ -1,26 +1,25 @@
 import React, { Component } from "react";
-import { Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
-import Root from "./components/pages/Root";
-import Post from "./components/pages/Post";
+import Posts from "./components/pages/Posts";
+import PostDetails from "./components/pages/PostDetails";
 import PostForm from "./components/pages/PostForm";
 
-class App extends Component {
+export default class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h1>Readable</h1>
-        <nav style={{ flexDirection: "row", justifyContent: "flex-start" }}>
-          <Link to="/view">View</Link> <Link to="/post">Post</Link>
-        </nav>
-        <div>
-          <Route exact path="/" component={Root} />
-          <Route path="/view" component={Post} />
-          <Route path="/post" component={PostForm} />
+      <BrowserRouter>
+        <div className="App">
+          <h1>Readable</h1>
+          <nav style={{ flexDirection: "row", justifyContent: "flex-start" }} />
+          <div>
+            <Route exact path="/" component={Posts} />
+            <Route path="/category/:id" component={Posts} />
+            <Route path="/post/:id" component={PostDetails} />
+            <Route path="/new" component={PostForm} />
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }
-
-export default App;

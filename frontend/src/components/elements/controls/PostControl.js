@@ -1,8 +1,25 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class PostControl extends Component {
   render() {
-    return <div>+</div>;
+    return (
+      <Link
+        style={{
+          width: 40,
+          height: 40,
+          backgroundColor: "red",
+          color: "white",
+          borderRadius: 20,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+        to="/new"
+      >
+        +
+      </Link>
+    );
   }
 }
 
