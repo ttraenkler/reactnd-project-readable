@@ -1,24 +1,18 @@
-import { type as postType } from "./posts";
+// redux logic for editing post comments
 import uuid from "uuid";
+import { type as postType } from "./posts";
+import type { Comment as CommentType } from "../types";
 
+/** comment action types */
 export const type = {
   CREATE_COMMENT: "create comment",
   EDIT_COMMENT: "edit comment",
   REMOVE_COMMENT: "remove comment"
 };
 
-export type CommentType = {
-  id: string, // Unique identifier
-  parentId: string, // id of the parent post
-  timestamp: number, //	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
-  body: string, // Comment body
-  author: string, // Comment author
-  voteScore: number, //	Net votes the comment has received (default: 1)
-  deleted: boolean, //	Flag if comment has been 'deleted' (inaccessible by the front end), (default: false)
-  parentDeleted: boolean //	Flag for when the the parent post was deleted, but the comment itself was not.
-};
-
+/** comment actions */
 export const actions = {
+  /** create a new comment */
   create: (postId, { body, author }: CommentType) => ({
     type: type.CREATE_COMMENT,
     payload: {
@@ -28,6 +22,7 @@ export const actions = {
       author
     }
   }),
+  /** edit an existing comment */
   edit: (id, { body, author, voteScore }: Post) => ({
     type: type.EDIT_COMMENT,
     payload: {
@@ -38,6 +33,7 @@ export const actions = {
       voteScore
     }
   }),
+  /** remove an existing comment */
   remove: id => ({
     type: type.REMOVE_COMMENT,
     payload: {
@@ -46,6 +42,7 @@ export const actions = {
   })
 };
 
+/** comments state reducer - processes category actions */
 export const reducer = (state = {}, action) => {
   const { payload } = action;
 

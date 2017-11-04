@@ -1,7 +1,10 @@
 // used for initial loading of all data
+import server from "./server";
+import type { Category } from "../types";
+
 export default {
-  categories: async () => {
-    const url = "http://localhost:3001/categories";
+  categories: async (): CategoryType[] => {
+    const url = server + "/categories";
     const response = await fetch(url, {
       headers: { Authorization: "whatever-you-want" }
     });
@@ -9,7 +12,7 @@ export default {
   },
 
   posts: async () => {
-    const url = "http://localhost:3001/posts";
+    const url = server + "/posts";
     const response = await fetch(url, {
       headers: { Authorization: "whatever-you-want" }
     });

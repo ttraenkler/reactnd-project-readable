@@ -1,18 +1,23 @@
+// redux logic for managing post categories
+import type { Category } from "../types";
+
+/** category action types */
 export const type = {
-  LOAD_CATEGORIES: "create categories",
+  CREATE_CATEGORY: "create category",
   REMOVE_CATEGORY: "remove category"
 };
 
-export type CategoryType = string;
-
+/** category actions */
 export const actions = {
-  load: (categories: CategoryType) => ({
-    type: type.LOAD_CATEGORIES,
+  /** create a new category */
+  create: (category: Category) => ({
+    type: type.CREATE_CATEGORIES,
     payload: {
-      categories
+      category
     }
   }),
-  remove: (category: CategoryType) => ({
+  /** remove an existing category */
+  remove: (category: string) => ({
     type: type.REMOVE_CATEGORY,
     payload: {
       category
@@ -20,12 +25,12 @@ export const actions = {
   })
 };
 
+/** categories state reducer - processes category actions */
 export const reducer = (state = [], action) => {
   const { payload } = action;
-
   switch (action.type) {
-    case type.LOAD_CATEGORIES:
-      return [...state, ...payload.categories];
+    case type.CREATE_CATEGORY:
+      return [...state, payload.category];
     case type.REMOVE_CATEGORY:
       const i = state.indexOf(payload.category);
       return state.splice(i);

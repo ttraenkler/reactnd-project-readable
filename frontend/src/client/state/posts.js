@@ -1,6 +1,9 @@
+// redux logic for editing posts
 import uuid from "uuid";
 import { type as commentType } from "./comments";
+import type { Post as PostType } from "../types";
 
+/** comment action types */
 export const type = {
   LOAD_POSTS: "load posts",
   CREATE_POST: "create post",
@@ -8,24 +11,16 @@ export const type = {
   REMOVE_POST: "remove post"
 };
 
-export type PostType = {
-  id: string, //	Unique identifier
-  timestamp: number, //	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
-  title: string, //	Post title
-  body: string, //	Post body
-  author: string, //	Post author
-  category: string, //	Should be one of the categories provided by the server
-  voteScore: number, //	Net votes the post has received (default: 1)
-  deleted: boolean //	Flag if post has been 'deleted' (inaccessible by the front end), (default: false)
-};
-
+/** post actions */
 export const actions = {
+  /** load all posts */
   load: (posts: PostType[]) => ({
     type: type.LOAD_POSTS,
     payload: {
       posts
     }
   }),
+  /** create a new post */
   create: ({ title, body, author, category }: PostType) => ({
     type: type.CREATE_POST,
     payload: {
@@ -36,6 +31,7 @@ export const actions = {
       category
     }
   }),
+  /** edit an existing post */
   edit: (id, { title, body, author, category, voteScore }: PostType) => ({
     type: type.EDIT_POST,
     payload: {
@@ -48,6 +44,7 @@ export const actions = {
       voteScore
     }
   }),
+  /** remove an existing post */
   remove: id => ({
     type: type.REMOVE_POST,
     payload: {
@@ -56,6 +53,7 @@ export const actions = {
   })
 };
 
+/** posts state reducer - processes post actions */
 export const reducer = (state = {}, action) => {
   const { payload } = action;
 

@@ -1,6 +1,10 @@
+import server from "./server";
+
+type PostType = {};
+
 export default {
-  post: async () => {
-    const url = "http://localhost:3001/posts";
+  post: async (post: PostType) => {
+    const url = server + "/posts";
     fetch(url, {
       method: "POST",
       body: {
