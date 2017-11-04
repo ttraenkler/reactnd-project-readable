@@ -1,9 +1,9 @@
 import type PostType from "../state/posts";
-import { uuidv1 as uuid } from "uuid";
+import uuid from "uuid";
 
 export const posts: PostType[] = [
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -14,7 +14,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:
@@ -25,7 +25,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -36,7 +36,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:
@@ -47,7 +47,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -58,7 +58,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:
@@ -69,7 +69,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -80,7 +80,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:
@@ -91,7 +91,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -102,7 +102,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:
@@ -113,7 +113,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "iPhone X: Alles ausverkauft – oder eBay",
     body:
@@ -124,7 +124,7 @@ export const posts: PostType[] = [
     deleted: false
   },
   {
-    id: uuid(),
+    id: uuid.v1(),
     timestamp: Date.now(),
     title: "Google nutzt den Standort für die Lokalisierung der Suche",
     body:

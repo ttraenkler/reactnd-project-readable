@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { post, type, reducer } from "./posts";
+import { actions, type, reducer } from "./posts";
 
 const body = "body",
   author = "author",
@@ -7,9 +7,9 @@ const body = "body",
   category = "category",
   voteScore = 1;
 
-describe("post action creator", () => {
-  it('should create a "create post" action', () => {
-    const action = post.create({
+describe("create post actions", () => {
+  it('created a "create post" action', () => {
+    const action = actions.create({
       body,
       author,
       title,
@@ -27,8 +27,8 @@ describe("post action creator", () => {
     });
   });
 
-  it('should create an "edit post" action', () => {
-    const action = post.edit(1, {
+  it('created an "edit post" action', () => {
+    const action = actions.edit(1, {
       body,
       author,
       title,
@@ -49,8 +49,8 @@ describe("post action creator", () => {
     });
   });
 
-  it('should create an "remove post" action', () => {
-    const action = post.remove(1);
+  it('created a "remove post" action', () => {
+    const action = actions.remove(1);
     expect(action).toEqual({
       type: type.REMOVE_POST,
       payload: { id: 1 }
@@ -58,27 +58,27 @@ describe("post action creator", () => {
   });
 });
 
-describe("process post actions", () => {
+describe("create post", () => {
   const store = createStore(reducer);
-  it("should update the posts state correctly", () => {
-    const testPost = post.create({
+  it("updated the redux state as expected", () => {
+    const testPost = actions.create({
       body,
       author,
       title,
       category
     });
     store.dispatch(testPost);
-    expect(store.getState().posts).toEqual({
-      0: {
-        body,
-        author,
-        title,
-        category,
-        deleted: false,
-        id: 0,
-        timestamp: testPost.payload.timestamp,
-        voteScore: 0
-      }
+    const posts = store.getState();
+
+    expect(Object.keys(posts).map(key => posts[key])).toContainEqual({
+      body,
+      author,
+      title,
+      category,
+      deleted: false,
+      comments: [],
+      timestamp: testPost.payload.timestamp,
+      voteScore: 0
     });
   });
 });

@@ -5,7 +5,7 @@ export const type = {
 
 export type CategoryType = string;
 
-export const category = {
+export const actions = {
   load: (categories: CategoryType) => ({
     type: type.LOAD_CATEGORIES,
     payload: {

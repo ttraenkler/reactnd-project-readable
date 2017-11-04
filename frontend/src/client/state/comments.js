@@ -1,5 +1,5 @@
 import { type as postType } from "./posts";
-import { uuidv1 as uuid } from "uuid";
+import uuid from "uuid";
 
 export const type = {
   CREATE_COMMENT: "create comment",
@@ -18,7 +18,7 @@ export type CommentType = {
   parentDeleted: boolean //	Flag for when the the parent post was deleted, but the comment itself was not.
 };
 
-export const comment = {
+export const actions = {
   create: (postId, { body, author }: CommentType) => ({
     type: type.CREATE_COMMENT,
     payload: {
@@ -51,12 +51,11 @@ export const reducer = (state = {}, action) => {
 
   switch (action.type) {
     case type.CREATE_COMMENT:
-      const id = uuid();
+      const id = uuid.v1();
       return {
         ...state,
         [id]: {
           ...payload,
-          id,
           deleted: false,
           parentDeleted: false,
           voteScore: 0

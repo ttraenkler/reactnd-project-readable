@@ -1,4 +1,4 @@
-import { uuidv1 as uuid } from "uuid";
+import uuid from "uuid";
 import { type as commentType } from "./comments";
 
 export const type = {
@@ -19,7 +19,7 @@ export type PostType = {
   deleted: boolean //	Flag if post has been 'deleted' (inaccessible by the front end), (default: false)
 };
 
-export const post = {
+export const actions = {
   load: (posts: PostType[]) => ({
     type: type.LOAD_POSTS,
     payload: {
@@ -65,12 +65,11 @@ export const reducer = (state = {}, action) => {
       payload.posts.forEach(post => (newState[post.id] = post));
       return newState;
     case type.CREATE_POST:
-      const id = uuid();
+      const id = uuid.v1();
       return {
         ...state,
         [id]: {
           ...payload,
-          id,
           deleted: false,
           voteScore: 0,
           comments: []
