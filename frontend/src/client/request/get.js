@@ -1,9 +1,10 @@
+// @flow
 // used for initial loading of all data
 import server from "./server";
 import type { Category } from "../types";
 
 export default {
-  categories: async (): CategoryType[] => {
+  categories: async () => {
     const url = server + "/categories";
     const response = await fetch(url, {
       headers: { Authorization: "whatever-you-want" }

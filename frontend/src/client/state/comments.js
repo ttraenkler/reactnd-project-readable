@@ -1,7 +1,9 @@
 // redux logic for editing post comments
+// @flow
+
 import uuid from "uuid";
 import { type as postType } from "./posts";
-import type { Comment as CommentType } from "../types";
+import type { Comment } from "../types";
 
 /** comment action types */
 export const type = {
@@ -13,7 +15,7 @@ export const type = {
 /** comment actions */
 export const actions = {
   /** create a new comment */
-  create: (postId, { body, author }: CommentType) => ({
+  create: (postId: string, { body, author }: Comment) => ({
     type: type.CREATE_COMMENT,
     payload: {
       parentId: postId,
@@ -23,7 +25,7 @@ export const actions = {
     }
   }),
   /** edit an existing comment */
-  edit: (id, { body, author, voteScore }: Post) => ({
+  edit: (id: string, { body, author, voteScore }: Comment) => ({
     type: type.EDIT_COMMENT,
     payload: {
       id,
@@ -34,7 +36,7 @@ export const actions = {
     }
   }),
   /** remove an existing comment */
-  remove: id => ({
+  remove: (id: string) => ({
     type: type.REMOVE_COMMENT,
     payload: {
       id
@@ -43,7 +45,7 @@ export const actions = {
 };
 
 /** comments state reducer - processes category actions */
-export const reducer = (state = {}, action) => {
+export const reducer = (state: Object = {}, action: Object) => {
   const { payload } = action;
 
   switch (action.type) {
