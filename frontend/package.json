@@ -18,5 +18,7 @@
     "redux-thunk": "^2.2.0",
     "uuid": "^3.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  }
 }

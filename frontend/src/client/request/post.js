@@ -1,15 +1,14 @@
+import fetch from "isomorphic-fetch";
 import server from "./server";
 
 type PostType = {};
 
-export default {
-  post: async (post: PostType) => {
-    const url = server + "/posts";
-    fetch(url, {
-      method: "POST",
-      body: {
-        test: "test"
-      }
-    });
-  }
-};
+export async function post(post: PostType) {
+  const url = server + "/posts";
+  fetch(url, {
+    method: "POST",
+    body: {
+      test: "test"
+    }
+  });
+}

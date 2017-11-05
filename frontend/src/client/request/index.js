@@ -1,2 +1,3 @@
-export { default as get } from "./get";
-export { default as post } from "./post";
+import * as get from "./get";
+import * as post from "./post";
+export { get, post };

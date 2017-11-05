@@ -3,17 +3,17 @@ import type { Category } from "../types";
 
 /** category action types */
 export const type = {
-  CREATE_CATEGORY: "create category",
+  LOAD_CATEGORIES: "load categories",
   REMOVE_CATEGORY: "remove category"
 };
 
 /** category actions */
 export const actions = {
   /** create a new category */
-  create: (category: Category) => ({
-    type: type.CREATE_CATEGORIES,
+  load: (categories: Category[]) => ({
+    type: type.LOAD_CATEGORIES,
     payload: {
-      category
+      categories
     }
   }),
   /** remove an existing category */
@@ -29,8 +29,8 @@ export const actions = {
 export const reducer = (state = [], action) => {
   const { payload } = action;
   switch (action.type) {
-    case type.CREATE_CATEGORY:
-      return [...state, payload.category];
+    case type.LOAD_CATEGORIES:
+      return state.splice().concat(payload.categories);
     case type.REMOVE_CATEGORY:
       const i = state.indexOf(payload.category);
       return state.splice(i);
