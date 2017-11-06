@@ -8,6 +8,14 @@ const categories = require("./categories");
 const posts = require("./posts");
 const comments = require("./comments");
 
+const log = {
+  request(req) {
+    console.log(`request = ${req.method} ${req.path}`);
+  },
+  data(data) {
+    console.log(`data = ${JSON.stringify(data, null, 2)}`);
+  }
+};
 const app = express();
 
 app.use(express.static("public"));
@@ -127,10 +135,10 @@ app.use((req, res, next) => {
 });
 
 app.get("/categories", (req, res) => {
-  console.log("GET /categories");
+  log.request(req);
   categories.getAll(req.token).then(
     data => {
-      console.log("data", data);
+      log.data(data);
       return res.send(data);
     },
     error => {
@@ -143,9 +151,12 @@ app.get("/categories", (req, res) => {
 });
 
 app.get("/:category/posts", (req, res) => {
-  console.log("GET /:category/posts");
+  log.request(req);
   posts.getByCategory(req.token, req.params.category).then(
-    data => res.send(data),
+    data => {
+      log.data(data)
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -156,9 +167,12 @@ app.get("/:category/posts", (req, res) => {
 });
 
 app.get("/posts", (req, res) => {
-  console.log("GET /posts");
+  log.request(req);
   posts.getAll(req.token).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -169,9 +183,12 @@ app.get("/posts", (req, res) => {
 });
 
 app.post("/posts", bodyParser.json(), (req, res) => {
-  console.log("POST /posts");
+  log.request(req);
   posts.add(req.token, req.body).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -182,9 +199,12 @@ app.post("/posts", bodyParser.json(), (req, res) => {
 });
 
 app.get("/posts/:id", (req, res) => {
-  console.log("GET /posts/:id");
+  log.request(req);
   posts.get(req.token, req.params.id).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -195,12 +215,15 @@ app.get("/posts/:id", (req, res) => {
 });
 
 app.delete("/posts/:id", (req, res) => {
-  console.log("delete /posts/:id");
+  log.request(req);
   posts
     .disable(req.token, req.params.id)
     .then(post => comments.disableByParent(req.token, post))
     .then(
-      data => res.send(data),
+      data => {
+        log.data(data);
+        return res.send(data);
+      },
       error => {
         console.error(error);
         res.status(500).send({
@@ -211,11 +234,14 @@ app.delete("/posts/:id", (req, res) => {
 });
 
 app.post("/posts/:id", bodyParser.json(), (req, res) => {
-  console.log("POST /posts/:id");
+  log.request(req);
   const { option } = req.body;
   const id = req.params.id;
   posts.vote(req.token, id, option).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -226,9 +252,12 @@ app.post("/posts/:id", bodyParser.json(), (req, res) => {
 });
 
 app.put("/posts/:id", bodyParser.json(), (req, res) => {
-  console.log("PUT /posts/:id");
+  log.request(req);
   posts.edit(req.token, req.params.id, req.body).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -239,9 +268,12 @@ app.put("/posts/:id", bodyParser.json(), (req, res) => {
 });
 
 app.get("/posts/:id/comments", (req, res) => {
-  console.log("GET /posts/:id/comments");
+  log.request(req);
   comments.getByParent(req.token, req.params.id).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -252,9 +284,12 @@ app.get("/posts/:id/comments", (req, res) => {
 });
 
 app.get("/comments/:id", (req, res) => {
-  console.log("GET /comments/:id");
+  log.request(req);
   comments.get(req.token, req.params.id).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -265,9 +300,12 @@ app.get("/comments/:id", (req, res) => {
 });
 
 app.put("/comments/:id", bodyParser.json(), (req, res) => {
-  console.log("PUT /comments/:id");
+  log.request(req);
   comments.edit(req.token, req.params.id, req.body).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -278,9 +316,12 @@ app.put("/comments/:id", bodyParser.json(), (req, res) => {
 });
 
 app.post("/comments", bodyParser.json(), (req, res) => {
-  console.log("POST /comments");
+  log.request(req);
   comments.add(req.token, req.body).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -291,10 +332,13 @@ app.post("/comments", bodyParser.json(), (req, res) => {
 });
 
 app.post("/comments/:id", bodyParser.json(), (req, res) => {
-  console.log("POST /comments/:id");
+  log.request(req);
   const { option } = req.body;
   comments.vote(req.token, req.params.id, option).then(
-    data => res.send(data),
+    data => {
+      log.response(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({
@@ -305,9 +349,12 @@ app.post("/comments/:id", bodyParser.json(), (req, res) => {
 });
 
 app.delete("/comments/:id", (req, res) => {
-  console.log("DELETE /comments/:id");
+  log.request(req);
   comments.disable(req.token, req.params.id).then(
-    data => res.send(data),
+    data => {
+      log.data(data);
+      return res.send(data);
+    },
     error => {
       console.error(error);
       res.status(500).send({

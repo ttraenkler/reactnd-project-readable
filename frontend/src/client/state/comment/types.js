@@ -1,3 +1,4 @@
+/** comment type as received from server */
 export type Comment = {
   id: string, // Unique identifier
   parentId: string, // id of the parent post

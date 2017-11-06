@@ -1,14 +1,12 @@
 import fetch from "isomorphic-fetch";
 import server from "./server";
 
-type PostType = {};
+const token = "whatever-you-want";
 
-export async function post(post: PostType) {
-  const url = server + "/posts";
-  fetch(url, {
+export async function post(post) {
+  return await fetch(`${server}/posts`, {
+    headers: { Authorization: token },
     method: "POST",
-    body: {
-      test: "test"
-    }
+    body: post
   });
 }

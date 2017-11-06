@@ -1,5 +1,4 @@
-import { createStore } from "redux";
-import { actions, type, reducer } from "./comments";
+import { create, edit, remove, type } from "./actions";
 
 const body = "body",
   author = "author",
@@ -8,7 +7,7 @@ const body = "body",
 
 describe("create comment actions", () => {
   it('created a "create comment" action', () => {
-    const action = actions.create(parentId, {
+    const action = create(parentId, {
       body,
       author
     });
@@ -24,7 +23,7 @@ describe("create comment actions", () => {
   });
 
   it('created an "edit comment" action', () => {
-    const action = actions.edit(parentId, {
+    const action = edit(parentId, {
       body,
       author,
       voteScore
@@ -42,32 +41,10 @@ describe("create comment actions", () => {
   });
 
   it('created a "remove comment" action', () => {
-    const action = actions.remove(1);
+    const action = remove(1);
     expect(action).toEqual({
       type: type.REMOVE_COMMENT,
       payload: { id: 1 }
-    });
-  });
-});
-
-describe("create comment", () => {
-  const store = createStore(reducer);
-  it("updated the redux state as expected", () => {
-    const testPost = actions.create(parentId, {
-      body,
-      author
-    });
-    store.dispatch(testPost);
-    const comments = store.getState();
-
-    expect(Object.keys(comments).map(key => comments[key])).toContainEqual({
-      body,
-      author,
-      deleted: false,
-      timestamp: testPost.payload.timestamp,
-      voteScore: 0,
-      parentDeleted: false,
-      parentId
     });
   });
 });

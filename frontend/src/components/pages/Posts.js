@@ -7,7 +7,7 @@ import PostForm from "./PostForm";
 export class PostsPage extends Component {
   state = {
     sortBy: "votes",
-    showModal: true
+    showModal: false
   };
 
   onChange = e => {
