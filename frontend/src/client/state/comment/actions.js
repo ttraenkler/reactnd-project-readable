@@ -3,29 +3,15 @@
 
 import type Comment from "./types";
 
-/** comment action types */
-export const type = {
-  LOAD_COMMENTS: "load comments",
-  CREATE_COMMENT: "create comment",
-  EDIT_COMMENT: "edit comment",
-  REMOVE_COMMENT: "remove comment"
-};
-
-export type LoadCommentsAction = {
+/** load comments action type */
+export type LoadComments = {
   type: "load comments",
   payload: {
     comments: Comment[]
   }
 };
-/** load all comments */
-export const load = (comments: Comment[]): LoadCommentsAction => ({
-  type: type.LOAD_COMMENTS,
-  payload: {
-    comments
-  }
-});
-
-export type CreateCommentAction = {
+/** create comment action type */
+export type CreateComment = {
   type: "create comment",
   payload: {
     parentId: string,
@@ -34,61 +20,68 @@ export type CreateCommentAction = {
     author: string
   }
 };
-/** create a new comment */
-export const create = (
-  postId: string,
-  { body, author }: Comment
-): CreateCommentAction => ({
-  type: type.CREATE_COMMENT,
-  payload: {
-    parentId: postId,
-    timestamp: Date.now(),
-    body,
-    author
-  }
-});
-
-export type EditCommentAction = {
+/** edit comment action type */
+export type EditComment = {
   type: "edit comment",
   payload: {
     id: string,
     timestamp: number,
-    body: string,
-    author: string,
-    voteScore: number
+    body: string
   }
 };
-/** edit an existing comment */
+/** remove comment action type */
+export type RemoveComment = {
+  type: "remove comment",
+  payload: {
+    id: string,
+    parentId: string
+  }
+};
+
+/** comment action type constants */
+export const type = {
+  LOAD_COMMENTS: "load comments",
+  CREATE_COMMENT: "create comment",
+  EDIT_COMMENT: "edit comment",
+  REMOVE_COMMENT: "remove comment"
+};
+
+/** load comments action creator */
+export const load = (comments: Comment[]): LoadComments => ({
+  type: type.LOAD_COMMENTS,
+  payload: {
+    comments
+  }
+});
+/** create comment action creator */
+export const create = (postId: string, comment: Comment): CreateComment => ({
+  type: type.CREATE_COMMENT,
+  payload: {
+    parentId: postId,
+    timestamp: Date.now(),
+    body: comment.body,
+    author: comment.author
+  }
+});
+/** edit comment action creator */
 export const edit = (
+  postId: string,
   id: string,
-  { body, author, voteScore }: Comment
-): EditCommentAction => ({
+  comment: Comment
+): EditComment => ({
   type: type.EDIT_COMMENT,
   payload: {
     id,
+    parentId: postId,
     timestamp: Date.now(),
-    body,
-    author,
-    voteScore
+    body: comment.body
   }
 });
-
-export type RemoveCommentAction = {
-  type: "remove comment",
-  payload: {
-    id: string
-  }
-};
-/** remove an existing comment */
-export const remove = (id: string): RemoveCommentAction => ({
+/** remove comment action creator */
+export const remove = (postId: string, id: string): RemoveComment => ({
   type: type.REMOVE_COMMENT,
   payload: {
-    id
+    id,
+    parentId: postId
   }
 });
-
-export type Action =
-  | LoadCommentsAction
-  | CreateCommentAction
-  | EditCommentAction
-  | RemoveCommentAction;

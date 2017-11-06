@@ -1,15 +1,15 @@
 import { createStore } from "redux";
 import { reducer } from "./reducer";
-import { create } from "./actions";
+import { create, remove } from "./actions";
 
 const body = "body",
   author = "author",
   title = "title",
   category = "category";
 
-describe("create post", () => {
+describe("post reducer", () => {
   const store = createStore(reducer);
-  it("updated the redux state as expected", () => {
+  it("should update store as expected when creating a post", () => {
     const testPost = create({
       body,
       author,

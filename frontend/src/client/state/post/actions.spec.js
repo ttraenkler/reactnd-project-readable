@@ -6,8 +6,8 @@ const body = "body",
   category = "category",
   voteScore = 1;
 
-describe("create post actions", () => {
-  it('created a "create post" action', () => {
+describe("post action creators", () => {
+  it('should create a "create post" action', () => {
     const action = create({
       body,
       author,
@@ -26,7 +26,7 @@ describe("create post actions", () => {
     });
   });
 
-  it('created an "edit post" action', () => {
+  it('should create an "edit post" action', () => {
     const action = edit(1, {
       body,
       author,
@@ -48,7 +48,7 @@ describe("create post actions", () => {
     });
   });
 
-  it('created a "remove post" action', () => {
+  it('should create a "remove post" action', () => {
     const action = remove(1);
     expect(action).toEqual({
       type: type.REMOVE_POST,

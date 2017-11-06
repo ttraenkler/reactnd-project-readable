@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import { Categories, Posts, PostControl, SortControl } from "../elements";
 import PostForm from "./PostForm";
+import { load } from "../../client";
 
 export class PostsPage extends Component {
   state = {
@@ -17,12 +18,16 @@ export class PostsPage extends Component {
   closeModal = () => this.setState({ showModal: false });
 
   render() {
-    const { categories, match } = this.props;
+    const { categories, posts, match } = this.props;
     return (
       <div>
         <Categories categories={categories} />
         <SortControl onChange={e => this.onChange(e)} />
-        <Posts category={match.params.id} sortBy={this.state.sortBy} />
+        <Posts
+          posts={posts}
+          category={match.params.id}
+          sortBy={this.state.sortBy}
+        />
         <PostControl />
         <Modal
           isOpen={this.state.showModal}
@@ -36,4 +41,12 @@ export class PostsPage extends Component {
   }
 }
 
-export default connect(state => ({ categories: state.categories }))(PostsPage);
+export default connect(
+  state => ({ categories: state.categories, posts: state.posts }),
+  dispatch => ({
+    load: () => {
+      dispatch(load.categories());
+      dispatch(load.posts());
+    }
+  })
+)(PostsPage);

@@ -3,56 +3,71 @@ import uuid from "uuid";
 import { type } from "./actions";
 import { type as postType } from "../post/actions";
 import type Comment from "./types";
+import type Action from "../generic/types";
 
-export type Action = { type: string };
 export type Comments = {
-  [commentId: string]: Comment
+  [postId: string]: {
+    [commentId: string]: Comment
+  }
 };
-
-const { LOAD_COMMENTS, CREATE_COMMENT, EDIT_COMMENT, REMOVE_COMMENT } = type;
-const { REMOVE_POST } = postType;
 
 export const reducer = (state: Comments = {}, action: Action): Comments => {
   const { payload } = action;
+
   switch (action.type) {
-    case LOAD_COMMENTS: {
+    case type.LOAD_COMMENTS: {
       const newState = { ...state };
-      payload.comments.forEach(comment => (newState[comment.id] = comment));
+      payload.comments.forEach(
+        comment => (newState[comment.parentId][comment.id] = comment)
+      );
       return newState;
     }
-    case CREATE_COMMENT:
+
+    case type.CREATE_COMMENT: {
+      // TODO: add this to parent post comment ids array
       const id = uuid.v1();
-      return {
-        ...state,
-        [id]: {
-          ...payload,
-          deleted: false,
-          parentDeleted: false,
-          voteScore: 0
-        }
-      };
-    case EDIT_COMMENT:
-      return {
-        ...state,
-        [payload.id]: payload
-      };
-    case REMOVE_COMMENT:
-      return {
-        ...state,
-        [payload.id]: {
-          ...state[payload.id],
-          deleted: true
-        }
-      };
-    case REMOVE_POST: {
       const newState = { ...state };
-      for (const key in newState.comments) {
-        if (newState[key].parentId === payload.id) {
-          newState[key].parentDeleted = true;
-        }
+      if (!newState[payload.parentId]) {
+        newState[payload.parentId] = {};
+      }
+
+      newState[payload.parentId][id] = {
+        ...payload,
+        // TODO: should posts and comments be removed or just marked deleted? how about server sync?
+        deleted: false,
+        parentDeleted: false,
+        voteScore: 0
+      };
+      return newState;
+    }
+
+    case type.EDIT_COMMENT: {
+      const newState = { ...state };
+      newState[payload.parentId][payload.id] = {
+        ...state[payload.parentId][payload.id],
+        ...payload
+      };
+      return newState;
+    }
+
+    case type.REMOVE_COMMENT: {
+      const newState = { ...state };
+      if (
+        newState[payload.parentId] &&
+        newState[payload.parentId][payload.id]
+      ) {
+        delete newState[payload.parentId][payload.id];
       }
       return newState;
     }
+
+    case postType.REMOVE_POST: {
+      // TODO: remove parent post
+      const newState = { ...state };
+      delete newState[payload.parentId];
+      return newState;
+    }
+
     default:
       return state;
   }
