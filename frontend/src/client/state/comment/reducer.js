@@ -17,9 +17,9 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
   switch (action.type) {
     case type.LOAD_COMMENTS: {
       const newState = { ...state };
-      payload.comments.forEach(
-        comment => (newState[comment.parentId][comment.id] = comment)
-      );
+      payload.comments.forEach(comment => {
+        newState[comment.parentId][comment.id] = comment;
+      });
       return newState;
     }
 

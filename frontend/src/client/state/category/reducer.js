@@ -5,8 +5,10 @@ import type { Action } from "./actions";
 export const reducer = (state = [], action: Action) => {
   const { payload } = action;
   switch (action.type) {
-    case type.LOAD_CATEGORIES:
-      return state.splice().concat(payload.categories);
+    case type.LOAD_CATEGORIES: {
+      console.log("payload", payload);
+      return [...payload.categories];
+    }
     case type.REMOVE_CATEGORY:
       const i = state.indexOf(payload.category);
       return state.splice(i);

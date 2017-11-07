@@ -11,6 +11,10 @@ export class PostsPage extends Component {
     showModal: false
   };
 
+  componentWillMount() {
+    this.props.load();
+  }
+
   onChange = e => {
     this.setState({ sortBy: e.target.value });
   };
@@ -44,9 +48,9 @@ export class PostsPage extends Component {
 export default connect(
   state => ({ categories: state.categories, posts: state.posts }),
   dispatch => ({
-    load: () => {
-      dispatch(load.categories());
-      dispatch(load.posts());
+    load: async () => {
+      dispatch(await load.categories());
+      dispatch(await load.posts());
     }
   })
 )(PostsPage);

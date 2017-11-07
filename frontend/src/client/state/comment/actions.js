@@ -1,7 +1,7 @@
 // redux logic for editing post comments
 // @flow
 
-import type Comment from "./types";
+import type { Comment } from "./types";
 
 /** load comments action type */
 export type LoadComments = {

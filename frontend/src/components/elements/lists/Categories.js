@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 export class Categories extends PureComponent {
   render() {
     const { categories } = this.props;
+    console.log("categories", categories);
     return (
       <p className="categories">
-        Filter by categories: <Link to="/">All </Link>
+        Filter by categories:{" "}
+        <Link key=" " to="/">
+          All{" "}
+        </Link>
         {categories.map(category => (
           <Link key={category.path} to={`/category/${category.path}`}>
             {category.name}{" "}

@@ -14,7 +14,7 @@ export const reducer = (state: Posts = {}, action: Action) => {
 
   switch (action.type) {
     case type.LOAD_POSTS: {
-      const newState = { ...state };
+      const newState = {};
       payload.posts.forEach(post => (newState[post.id] = post));
       return newState;
     }

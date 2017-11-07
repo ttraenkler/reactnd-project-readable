@@ -9,7 +9,8 @@ export async function categories() {
   const response = await fetch(`${server}/categories`, {
     headers: { Authorization: token }
   });
-  return await response.json();
+  const json = await response.json();
+  return json.categories;
 }
 
 export async function posts(category: string = "") {

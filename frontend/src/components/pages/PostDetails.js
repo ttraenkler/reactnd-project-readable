@@ -8,14 +8,12 @@ const PostDetails = ({ post, comments }: PostType) => {
   return (
     <div>
       <Post data={post} />
-      <Comments data={comments} />
+      <Comments comments={comments} />
     </div>
   );
 };
 
 export default connect((state, ownProps) => ({
   post: state.posts[ownProps.match.params.id],
-  comments: state.posts[ownProps.match.params.id].comments.map(
-    id => state.comments[id]
-  )
+  comments: state.comments[ownProps.match.params.id]
 }))(PostDetails);
