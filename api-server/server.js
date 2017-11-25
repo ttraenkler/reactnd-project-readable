@@ -10,7 +10,9 @@ const comments = require("./comments");
 
 const log = {
   request(req) {
-    console.log(`request = ${req.method} ${req.path}`);
+    console.log(
+      `request = ${req.method} ${req.path} ${JSON.stringify(req.body, null, 2)}`
+    );
   },
   data(data) {
     console.log(`data = ${JSON.stringify(data, null, 2)}`);
@@ -154,7 +156,7 @@ app.get("/:category/posts", (req, res) => {
   log.request(req);
   posts.getByCategory(req.token, req.params.category).then(
     data => {
-      log.data(data)
+      log.data(data);
       return res.send(data);
     },
     error => {
@@ -336,7 +338,7 @@ app.post("/comments/:id", bodyParser.json(), (req, res) => {
   const { option } = req.body;
   comments.vote(req.token, req.params.id, option).then(
     data => {
-      log.response(data);
+      log.data(data);
       return res.send(data);
     },
     error => {
