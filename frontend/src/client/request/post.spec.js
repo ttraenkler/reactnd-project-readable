@@ -9,18 +9,15 @@ const test = {
     body: "body",
     author: "author",
     category: "react",
-    voteScore: 0,
-    deleted: false
+    voteScore: 1
   },
   comment: {
     author: "author",
     body: "body",
-    deleted: false,
     id: uuid.v1(),
-    parentDeleted: false,
     parentId: "9xf0y6ziyjabvozdd253ne",
     timestamp: Date.now(),
-    voteScore: 0
+    voteScore: 1
   }
 };
 

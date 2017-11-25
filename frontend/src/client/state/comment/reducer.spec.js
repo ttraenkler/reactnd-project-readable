@@ -2,11 +2,11 @@ jest.mock("uuid", () => ({
   v1: jest.fn(() => 1)
 }));
 
-/* eslint-disable */
+/* eslint-disable import/first */
 import { createStore } from "redux";
 import { create, edit, remove, load } from "./actions";
 import { reducer } from "./reducer";
-/* eslint-enable */
+/* eslint-enable import/first */
 
 const body = "body",
   author = "author",
@@ -28,10 +28,8 @@ describe("comment reducer", () => {
         "1": {
           body,
           author,
-          deleted: false,
           timestamp: testPost.payload.timestamp,
-          voteScore: 0,
-          parentDeleted: false,
+          voteScore: 1,
           parentId
         }
       }
@@ -51,10 +49,8 @@ describe("comment reducer", () => {
           id: "1",
           body: "new body",
           author,
-          deleted: false,
           timestamp: testPost.payload.timestamp,
-          voteScore: 0,
-          parentDeleted: false,
+          voteScore: 1,
           parentId
         }
       }

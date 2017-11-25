@@ -1,19 +1,64 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import type { Post as PostType } from "../../state/posts";
 import Post from "../elements/Post";
 import Comments from "../elements/lists/Comments";
+import { load } from "../../client";
+import type { Post as PostType } from "../../state/post/types";
+import type { Comment as CommentType } from "../../state/comment/types";
 
-const PostDetails = ({ post, comments }: PostType) => {
-  return (
-    <div>
-      <Post data={post} />
-      <Comments comments={comments} />
-    </div>
-  );
+type Props = {
+  post: PostType,
+  comments: CommentType[]
 };
 
-export default connect((state, ownProps) => ({
-  post: state.posts[ownProps.match.params.id],
-  comments: state.comments[ownProps.match.params.id]
-}))(PostDetails);
+class PostDetails extends Component<Props> {
+  state = { loaded: false };
+
+  async componentWillMount() {
+    console.log("PostDetails::componentWillMount props", this.props);
+    await this.props.load(this.props.id);
+    console.log(
+      "PostDetails::componentWillMount props after loading",
+      this.props
+    );
+    this.setState(
+      {
+        loaded: true
+      },
+      () => console.log("PostDetails::componentWillMount state", this.state)
+    );
+  }
+
+  render() {
+    const { loaded } = this.state;
+    const { post, comments } = this.props;
+    // TODO: edit / delete controls
+    return (
+      <div>
+        {loaded ? <Post post={post} /> : null}
+        {loaded ? <Comments comments={comments} /> : null}
+      </div>
+    );
+  }
+}
+
+export default connect(
+  (state, ownProps) => {
+    const postId = ownProps.match.params.id;
+    return {
+      id: postId,
+      post: state.posts[postId],
+      comments: state.posts[postId]
+        ? state.posts[postId].comments
+            .map(commentId => state.comments[commentId])
+            .sort((a, b) => b.voteScore - a.voteScore)
+        : []
+    };
+  },
+  dispatch => ({
+    load: async (postId: number) => {
+      dispatch(await load.post(postId));
+      dispatch(await load.comments(postId));
+    }
+  })
+)(PostDetails);

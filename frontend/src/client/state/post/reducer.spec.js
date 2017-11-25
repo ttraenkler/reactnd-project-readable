@@ -24,10 +24,9 @@ describe("post reducer", () => {
       author,
       title,
       category,
-      deleted: false,
       comments: [],
       timestamp: testPost.payload.timestamp,
-      voteScore: 0
+      voteScore: 1
     });
   });
 });

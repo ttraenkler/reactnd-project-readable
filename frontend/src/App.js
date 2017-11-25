@@ -10,7 +10,7 @@ export default class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <h1>Readable</h1>
+          <h1>News</h1>
           <nav style={{ flexDirection: "row", justifyContent: "flex-start" }} />
           <div>
             <Route exact path="/" component={Posts} />

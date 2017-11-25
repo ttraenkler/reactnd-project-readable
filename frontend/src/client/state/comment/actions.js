@@ -3,6 +3,19 @@
 
 import type { Comment } from "./types";
 
+// ACTION TYPE CONSTANTS ______________________________________________________
+
+/** comment action type constants */
+export const type = {
+  LOAD_COMMENTS: "load comments",
+  CREATE_COMMENT: "create comment",
+  EDIT_COMMENT: "edit comment",
+  REMOVE_COMMENT: "remove comment",
+  VOTE_COMMENT: "vote on comment"
+};
+
+// ACTION FLOWTYPES ___________________________________________________________
+
 /** load comments action type */
 export type LoadComments = {
   type: "load comments",
@@ -37,14 +50,17 @@ export type RemoveComment = {
     parentId: string
   }
 };
-
-/** comment action type constants */
-export const type = {
-  LOAD_COMMENTS: "load comments",
-  CREATE_COMMENT: "create comment",
-  EDIT_COMMENT: "edit comment",
-  REMOVE_COMMENT: "remove comment"
+/** remove comment action type */
+export type VoteOnComment = {
+  type: "vote on comment",
+  payload: {
+    id: string,
+    parentId: string,
+    like: boolean
+  }
 };
+
+// ACTION CREATORS ____________________________________________________________
 
 /** load comments action creator */
 export const load = (comments: Comment[]): LoadComments => ({
@@ -53,6 +69,7 @@ export const load = (comments: Comment[]): LoadComments => ({
     comments
   }
 });
+
 /** create comment action creator */
 export const create = (postId: string, comment: Comment): CreateComment => ({
   type: type.CREATE_COMMENT,
@@ -63,25 +80,33 @@ export const create = (postId: string, comment: Comment): CreateComment => ({
     author: comment.author
   }
 });
+
 /** edit comment action creator */
 export const edit = (
-  postId: string,
   id: string,
   comment: Comment
 ): EditComment => ({
   type: type.EDIT_COMMENT,
   payload: {
     id,
-    parentId: postId,
     timestamp: Date.now(),
     body: comment.body
   }
 });
+
 /** remove comment action creator */
-export const remove = (postId: string, id: string): RemoveComment => ({
+export const remove = (id: string): RemoveComment => ({
   type: type.REMOVE_COMMENT,
   payload: {
+    id
+  }
+});
+
+/** vote on comment action creator */
+export const vote = (id: string, like: boolean): VoteOnComment => ({
+  type: type.VOTE_COMMENT,
+  payload: {
     id,
-    parentId: postId
+    like
   }
 });

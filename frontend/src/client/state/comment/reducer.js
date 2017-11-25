@@ -1,16 +1,15 @@
-/** comments state reducer - processes category actions */
 import uuid from "uuid";
-import { type } from "./actions";
+import { type as commentType } from "./actions";
 import { type as postType } from "../post/actions";
-import type Comment from "./types";
+import type Comments from "./types";
 import type Action from "../generic/types";
 
-export type Comments = {
-  [postId: string]: {
-    [commentId: string]: Comment
-  }
+const type = {
+  ...commentType,
+  ...postType
 };
 
+/** comments state reducer - processes category actions */
 export const reducer = (state: Comments = {}, action: Action): Comments => {
   const { payload } = action;
 
@@ -18,7 +17,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
     case type.LOAD_COMMENTS: {
       const newState = { ...state };
       payload.comments.forEach(comment => {
-        newState[comment.parentId][comment.id] = comment;
+        newState[comment.id] = comment;
       });
       return newState;
     }
@@ -27,24 +26,17 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       // TODO: add this to parent post comment ids array
       const id = uuid.v1();
       const newState = { ...state };
-      if (!newState[payload.parentId]) {
-        newState[payload.parentId] = {};
-      }
-
-      newState[payload.parentId][id] = {
+      newState[id] = {
         ...payload,
-        // TODO: should posts and comments be removed or just marked deleted? how about server sync?
-        deleted: false,
-        parentDeleted: false,
-        voteScore: 0
+        voteScore: 1
       };
       return newState;
     }
 
     case type.EDIT_COMMENT: {
       const newState = { ...state };
-      newState[payload.parentId][payload.id] = {
-        ...state[payload.parentId][payload.id],
+      newState[payload.id] = {
+        ...state[payload.id],
         ...payload
       };
       return newState;
@@ -52,19 +44,21 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
 
     case type.REMOVE_COMMENT: {
       const newState = { ...state };
-      if (
-        newState[payload.parentId] &&
-        newState[payload.parentId][payload.id]
-      ) {
-        delete newState[payload.parentId][payload.id];
+      if (newState[payload.id]) {
+        delete newState[payload.id];
       }
       return newState;
     }
 
-    case postType.REMOVE_POST: {
-      // TODO: remove parent post
+    case type.VOTE_COMMENT: {
       const newState = { ...state };
-      delete newState[payload.parentId];
+      if (newState[payload.id]) {
+        if (payload.like) {
+          newState[payload.id].voteScore += 1;
+        } else {
+          newState[payload.id].voteScore -= 1;
+        }
+      }
       return newState;
     }
 

@@ -1,13 +1,13 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import type PostType from "../../../state/posts";
-import Post from "../Post";
+import PostSummary from "../PostSummary";
 
 type Props = {
   posts: PostType[]
 };
 
-class Posts extends PureComponent<Props> {
+class Posts extends Component<Props> {
   render() {
     const { posts, category, sortBy } = this.props;
     return (
@@ -20,7 +20,17 @@ class Posts extends PureComponent<Props> {
               ? (a, b) => b.voteScore - a.voteScore
               : (a, b) => b.timestamp - a.timestamp
           )
-          .map(post => <Post key={post.id} data={post} />)}
+          .map(post => (
+            <div
+              key={post.id}
+              style={{
+                borderTop: "solid 1px #EEE",
+                maxWidth: "600px"
+              }}
+            >
+              <PostSummary key={post.id} post={post} />
+            </div>
+          ))}
       </div>
     );
   }

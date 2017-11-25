@@ -13,6 +13,8 @@ class PostForm extends Component {
     event.preventDefault();
   };
 
+  // TODO: load categories data from server
+  // TODO: prepopulate form when editing a post
   render() {
     const { categories } = this.props;
     return (
@@ -40,9 +42,10 @@ class PostForm extends Component {
           <br />
           <label>
             Text:<br />
-            <input
-              type="text"
+            <textarea
               name="body"
+              cols="40"
+              rows="5"
               value={this.state.body}
               onChange={event => this.onChange("body", event)}
             />
@@ -66,7 +69,9 @@ class PostForm extends Component {
             </select>
           </label>
           <br />
-          <input type="submit" />
+          <div style={{ marginTop: "15px" }}>
+            <input type="submit" />
+          </div>
         </form>
       </div>
     );

@@ -5,10 +5,9 @@ import { Link } from "react-router-dom";
 export class Categories extends PureComponent {
   render() {
     const { categories } = this.props;
-    console.log("categories", categories);
     return (
       <p className="categories">
-        Filter by categories:{" "}
+        Show topics:{" "}
         <Link key=" " to="/">
           All{" "}
         </Link>

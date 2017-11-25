@@ -1,36 +1,20 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { formatDate } from "../../date";
+import Vote from "./Vote";
 import type PostType from "../../../state/posts";
+import { vote } from "../../client";
 
 type Props = {
   post: PostType
 };
 
-function formatDate(timestamp: number): string {
-  var monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ];
+class Post extends Component<Props> {
+  onVote = (like: boolean) => {
+    this.props.onVote(this.props.post.id, like);
+  };
 
-  const date = new Date(timestamp);
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-
-  return day + " " + monthNames[monthIndex] + " " + year;
-}
-
-class Post extends PureComponent<Props> {
   render() {
     const {
       id,
@@ -40,20 +24,35 @@ class Post extends PureComponent<Props> {
       category,
       voteScore,
       timestamp
-    } = this.props.data;
+    } = this.props.post;
     return (
-      <Link to={`/post/${id}`} className="post">
+      <div key={id}>
         <h2>{title}</h2>
-        <p className="post-header">
-          {author} {formatDate(timestamp)}
-        </p>
-        <p className="post-body">{body}</p>
-        <p className="post-footer">
-          {voteScore} &#128077; {category}
-        </p>
-      </Link>
+        <div className="post-header">
+          {author} {formatDate(timestamp)}{" "}
+          <Link key="edit" to="/new">
+            &#9998;
+          </Link>
+          <Link key="delete" to="/new">
+            &#9003;
+          </Link>
+        </div>
+        <div className="post-body">{body}</div>
+        <div className="post-footer">
+          <Vote votes={voteScore} onVote={this.onVote}>
+            Category: {category}
+          </Vote>
+        </div>
+      </div>
     );
   }
 }
 
-export default Post;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    onVote: async (postId: string, like: boolean) => {
+      dispatch(await vote.post(postId, like));
+    }
+  })
+)(Post);

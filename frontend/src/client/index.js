@@ -1,4 +1,4 @@
 import * as load from "./load";
+import * as vote from "./vote";
 
-export * from "./state";
-export { load };
+export { load, vote };

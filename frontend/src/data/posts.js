@@ -10,8 +10,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -21,8 +20,7 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   },
   {
     id: uuid.v1(),
@@ -32,8 +30,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -43,8 +40,7 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   },
   {
     id: uuid.v1(),
@@ -54,8 +50,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -65,8 +60,7 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   },
   {
     id: uuid.v1(),
@@ -76,8 +70,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -87,8 +80,7 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   },
   {
     id: uuid.v1(),
@@ -98,8 +90,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -109,8 +100,7 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   },
   {
     id: uuid.v1(),
@@ -120,8 +110,7 @@ export const posts: PostType[] = [
       "Wer nun noch Apples Top-Smartphone ergattern möchte, muss mindestens fünf Wochen warten – vermutlich länger. Alternativ kann man sich bei Onlineauktionen umsehen, natürlich mit erheblichen Preisaufschlägen.",
     author: "Ben Schwan",
     category: "iPhone",
-    voteScore: 124,
-    deleted: false
+    voteScore: 124
   },
   {
     id: uuid.v1(),
@@ -131,7 +120,6 @@ export const posts: PostType[] = [
       "Das Unternehmen hat angekündigt, abhängig vom Standort des Suchenden die betreffende Landesversion seiner Suchmaschine zu nutzen.",
     author: "Jo Bager",
     category: "Google",
-    voteScore: 130,
-    deleted: false
+    voteScore: 130
   }
 ];
