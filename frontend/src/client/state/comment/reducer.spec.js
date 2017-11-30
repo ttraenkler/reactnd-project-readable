@@ -1,12 +1,11 @@
+/* eslint-disable import/first */
 jest.mock("uuid", () => ({
   v1: jest.fn(() => 1)
 }));
 
-/* eslint-disable import/first */
 import { createStore } from "redux";
 import { create, edit, remove, load } from "./actions";
 import { reducer } from "./reducer";
-/* eslint-enable import/first */
 
 const body = "body",
   author = "author",

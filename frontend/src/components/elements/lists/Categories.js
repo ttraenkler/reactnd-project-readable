@@ -1,8 +1,8 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-export class Categories extends PureComponent {
+export class Categories extends Component {
   render() {
     const { categories } = this.props;
     return (

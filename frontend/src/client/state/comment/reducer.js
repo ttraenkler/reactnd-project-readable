@@ -12,9 +12,16 @@ const type = {
 /** comments state reducer - processes category actions */
 export const reducer = (state: Comments = {}, action: Action): Comments => {
   const { payload } = action;
+  const {
+    LOAD_COMMENTS,
+    CREATE_COMMENT,
+    EDIT_COMMENT,
+    REMOVE_COMMENT,
+    VOTE_COMMENT
+  } = type;
 
   switch (action.type) {
-    case type.LOAD_COMMENTS: {
+    case LOAD_COMMENTS: {
       const newState = { ...state };
       payload.comments.forEach(comment => {
         newState[comment.id] = comment;
@@ -22,7 +29,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case type.CREATE_COMMENT: {
+    case CREATE_COMMENT: {
       // TODO: add this to parent post comment ids array
       const id = uuid.v1();
       const newState = { ...state };
@@ -33,7 +40,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case type.EDIT_COMMENT: {
+    case EDIT_COMMENT: {
       const newState = { ...state };
       newState[payload.id] = {
         ...state[payload.id],
@@ -42,7 +49,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case type.REMOVE_COMMENT: {
+    case REMOVE_COMMENT: {
       const newState = { ...state };
       if (newState[payload.id]) {
         delete newState[payload.id];
@@ -50,14 +57,13 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case type.VOTE_COMMENT: {
+    case VOTE_COMMENT: {
       const newState = { ...state };
       if (newState[payload.id]) {
-        if (payload.like) {
-          newState[payload.id].voteScore += 1;
-        } else {
-          newState[payload.id].voteScore -= 1;
-        }
+        newState[payload.id] = {
+          ...state[payload.id],
+          voteScore: state[payload.id].voteScore + (payload.like ? 1 : -1)
+        };
       }
       return newState;
     }

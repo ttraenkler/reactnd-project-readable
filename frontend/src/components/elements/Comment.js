@@ -49,7 +49,7 @@ export class Comment extends React.Component {
   };
 
   render() {
-    const { author, body, timestamp, votes } = this.props.data;
+    const { author, body, timestamp, voteScore } = this.props.data;
     console.log("Comment::render props", this.props);
     // TODO: comment id is missing in props
     return (
@@ -57,7 +57,7 @@ export class Comment extends React.Component {
         {body} <br />
         <Footer>
           <Publication author={author} timestamp={timestamp} />
-          <Vote votes={votes} onVote={this.onVote} />{" "}
+          <Vote votes={voteScore} onVote={this.onVote} />{" "}
           <span style={{ fontSize: 20 }}>
             <EditButton onClick={this.onEdit} />{" "}
             <DeleteButton onClick={this.onDelete} />
@@ -75,9 +75,7 @@ export default connect(
   dispatch => ({
     // TODO: misssing side effect of vote action (server update)
     onVote: async (commentId: string, like: boolean) => {
-      console.log("comment onVote action dispatch", commentId, like);
-      const action = await comment.vote(commentId, like);
-      dispatch(action);
+      dispatch(await comment.vote(commentId, like));
     }
   })
 )(Comment);

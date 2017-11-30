@@ -16,9 +16,19 @@ export type Posts = {
 /** posts state reducer - processes post actions */
 export const reducer = (state: Posts = {}, action: Action) => {
   const { payload } = action;
+  const {
+    LOAD_POSTS,
+    CREATE_POST,
+    EDIT_POST,
+    REMOVE_POST,
+    VOTE_POST,
+    LOAD_COMMENTS,
+    CREATE_COMMENT,
+    REMOVE_COMMENT
+  } = type;
 
   switch (action.type) {
-    case type.LOAD_POSTS: {
+    case LOAD_POSTS: {
       const newState = {};
       if (payload && payload.posts) {
         payload.posts.forEach(
@@ -28,7 +38,7 @@ export const reducer = (state: Posts = {}, action: Action) => {
       return newState;
     }
 
-    case type.CREATE_POST: {
+    case CREATE_POST: {
       const id = uuid.v1();
       return {
         ...state,
@@ -40,7 +50,7 @@ export const reducer = (state: Posts = {}, action: Action) => {
       };
     }
 
-    case type.EDIT_POST: {
+    case EDIT_POST: {
       // just update specific fields
       return {
         ...state,
@@ -52,13 +62,13 @@ export const reducer = (state: Posts = {}, action: Action) => {
       };
     }
 
-    case type.REMOVE_POST: {
+    case REMOVE_POST: {
       const newState = { ...state };
       delete newState[payload.id];
       return newState;
     }
 
-    case type.VOTE_POST: {
+    case VOTE_POST: {
       const newState = { ...state };
       newState[payload.id] = {
         ...state[payload.id],
@@ -67,7 +77,7 @@ export const reducer = (state: Posts = {}, action: Action) => {
       return newState;
     }
 
-    case type.LOAD_COMMENTS: {
+    case LOAD_COMMENTS: {
       const newState = { ...state };
       payload.comments.forEach(comment => {
         if (newState[comment.parentId]) {
@@ -77,13 +87,13 @@ export const reducer = (state: Posts = {}, action: Action) => {
       return newState;
     }
 
-    case type.CREATE_COMMENT: {
+    case CREATE_COMMENT: {
       const newState = { ...state };
       newState[payload.parentId].comments.push(payload.id);
       return newState;
     }
 
-    case type.REMOVE_COMMENT: {
+    case REMOVE_COMMENT: {
       const newState = { ...state };
       const index = newState[payload.parentId].comments.indexOf(payload.id);
       if (index > -1) {

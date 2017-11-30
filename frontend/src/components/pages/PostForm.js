@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import type PostType from "../../client/state/post/types";
+import { post } from "../../client";
 
 type Props = {
+  postId: string,
   categories: { name: string, path: string }[],
   post?: PostType
 };
@@ -12,30 +14,52 @@ class PostForm extends Component {
 
   constructor(props) {
     super(props);
-    const { post, categories } = this.props;
-    this.state = {
-      post: post
-        ? post
-        : { id: "", author: "", title: "", body: "", category: "" },
-      categories
-    };
+    if (props.post) {
+      const { id, author, title, body, category } = props.post;
+      this.state = {
+        id,
+        author,
+        title,
+        body,
+        category
+      };
+    } else {
+      this.state = {
+        id: "",
+        author: "",
+        title: "",
+        body: "",
+        category: ""
+      };
+    }
+  }
+
+  componentWillMount() {
+    this.props.load(this.props.id);
   }
 
   componentWillReceiveProps(newProps) {
-    const { post, categories } = this.newProps;
-    this.setState({ post, categories });
+    if (newProps.post) {
+      const { id, author, title, body, category } = newProps.post;
+      this.setState({
+        id,
+        author,
+        title,
+        body,
+        category
+      });
+    }
   }
 
-  onChange = (field, event) =>
-    this.setState({ post: { [field]: event.target.value } });
+  onChange = (field, event) => this.setState({ [field]: event.target.value });
 
   onSubmit = event => {
     console.log("event =", event);
     console.log("state =", this.state);
-    if (this.props.post && this.props.post.id) {
-      console.log("edit post", this.props.post.id);
+    if (this.props.id) {
+      this.props.edit();
     } else {
-      console.log("create new post");
+      this.props.create();
     }
     event.preventDefault();
   };
@@ -43,9 +67,8 @@ class PostForm extends Component {
   // TODO: load categories data from server
   // TODO: prepopulate form when editing a post
   render() {
-    console.log("state", this.state);
-    const { post, categories } = this.state;
-    const { author, title, body, category } = post;
+    console.log("props", this.props, "state", this.state);
+    const { author, title, body, category } = this.state;
     return (
       <div>
         <form onSubmit={this.onSubmit}>
@@ -90,7 +113,7 @@ class PostForm extends Component {
               <option key="-" value="-">
                 -
               </option>
-              {categories.map(category => (
+              {this.props.categories.map(category => (
                 <option key={category.name} value={category.name}>
                   {category.name}
                 </option>
@@ -107,4 +130,23 @@ class PostForm extends Component {
   }
 }
 
-export default connect(state => ({ categories: state.categories }))(PostForm);
+export default connect(
+  (state, ownProps) => ({
+    id:
+      ownProps.match.params.id === "new" ? undefined : ownProps.match.params.id,
+    categories: state.categories,
+    post: state.posts[ownProps.match.params.id]
+  }),
+  dispatch => ({
+    load: async (id: string) => {
+      console.log("load post", id, "+ categories");
+    },
+    edit: async (postId: string, post) => {
+      console.log("edit post");
+      post.edit(postId, post.title, post.body);
+    },
+    create: async () => {
+      console.log("create new post");
+    }
+  })
+)(PostForm);

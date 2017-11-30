@@ -13,13 +13,11 @@ import type {
 export async function load(postId: string = ""): LoadPostsAction {
   if (postId) {
     const response = await request.load(postId);
-    const result = action.load(response);
-    console.log("loaded post", postId, result);
+    const result = action.load([response]);
     return result;
   } else {
-    const response = await request.load();
+    const response = await request.loadAll();
     const result = action.load(response);
-    console.log("loaded posts", result);
     return result;
   }
 }

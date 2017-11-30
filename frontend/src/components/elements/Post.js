@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { formatDate } from "../../date";
 import Vote from "./Vote";
 import { post } from "../../client";
@@ -7,7 +8,7 @@ import type PostType from "../../../state/posts";
 import { EditButton, DeleteButton } from "./buttons";
 
 type Props = {
-  post: PostType
+  post: ?PostType
 };
 
 // TODO: make edit and delete buttons work
@@ -27,6 +28,7 @@ class Post extends Component {
   };
 
   render() {
+    if (!this.props.post) return null;
     const {
       id,
       title,
@@ -47,7 +49,9 @@ class Post extends Component {
           </Vote>
           <span style={{ marginLeft: 5 }}>Comments: {commentCount}</span>{" "}
           <span style={{ fontSize: 20 }}>
-            <EditButton onClick={this.onEdit} />{" "}
+            <Link to={`/post/edit/${id}`}>
+              <EditButton />
+            </Link>{" "}
             <DeleteButton onClick={this.onDelete} />
           </span>
         </div>

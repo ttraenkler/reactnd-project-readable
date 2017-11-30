@@ -15,7 +15,7 @@ class PostControl extends Component {
           alignItems: "center",
           justifyContent: "center"
         }}
-        to="/new"
+        to="/post/edit/new"
       >
         +
       </Link>

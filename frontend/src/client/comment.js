@@ -11,21 +11,21 @@ export async function load(postId: string): void {
 }
 
 export async function publish(comment: CommentType) {
-  const result = action.create(await request.publish(comment));
-  console.log("published comment", comment, result);
-  return result;
+  await request.publish(comment);
+  console.log("published comment", comment);
+  return action.create(comment);
 }
 
 /** loads comments for a post from server and returns as action */
 export async function unpublish(commentId: string) {
-  const result = action.remove(await request.remove(commentId));
-  console.log("removed comment", commentId, result);
-  return result;
+  await request.remove(commentId);
+  console.log("removed comment", commentId);
+  return action.remove(commentId);
 }
 
 /** upload vote on comments to server and returns as action to update redux state if succeeds */
 export async function vote(commentId: string, like: boolean) {
-  const result = action.vote(await request.vote(commentId, like)); // TODO: check if successful missing
-  console.log("voted on comment", commentId, result);
-  return result;
+  await request.vote(commentId, like);
+  console.log("voted on comment", commentId, true);
+  return action.vote(commentId, like);
 }

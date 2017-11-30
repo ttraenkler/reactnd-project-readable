@@ -8,9 +8,6 @@ export const reducer = (state = [], action: Action) => {
     case type.LOAD_CATEGORIES: {
       return [...payload.categories];
     }
-    case type.REMOVE_CATEGORY:
-      const i = state.indexOf(payload.category);
-      return state.splice(i);
     default:
       return state;
   }
