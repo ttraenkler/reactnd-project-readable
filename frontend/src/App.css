@@ -57,19 +57,19 @@ p {
 
 .post-header {
   font-size: 12px;
-  color: gray;
+  color: rgb(200, 200, 200);
 }
 
 .post-footer {
   font-size: 12px;
-  color: gray;
+  color: rgb(200, 200, 200);
 }
 
 .post-body {
   font-size: 16px;
   color: black;
   margin-top: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 50px;
 }
 
 .categories {
@@ -77,12 +77,12 @@ p {
 }
 
 .post {
-  margin: 25px 10px;
+  /* margin: 25px 10px; */
 }
 
 a,
 u {
   text-decoration: none;
   font-size: 14px;
-  color: gray;
+  color: rgb(200, 200, 200);
 }
