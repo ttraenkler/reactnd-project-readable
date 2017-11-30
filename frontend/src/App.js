@@ -14,8 +14,8 @@ export default class App extends Component {
           <nav style={{ flexDirection: "row", justifyContent: "flex-start" }} />
           <div>
             <Route exact path="/" component={Posts} />
-            <Route path="/category/:id" component={Posts} />
-            <Route path="/post/:id" component={PostDetails} />
+            <Route exact path="/:category" component={Posts} />
+            <Route path="/:category/:id" component={PostDetails} />
             <Route path="/new" component={PostForm} />
           </div>
         </div>
