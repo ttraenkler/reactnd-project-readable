@@ -1,3 +1,5 @@
-import * as get from "./get";
+import * as category from "./category";
 import * as post from "./post";
-export { get, post };
+import * as comment from "./comment";
+
+export { category, post, comment };

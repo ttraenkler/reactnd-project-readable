@@ -1,9 +1,9 @@
 import { create, edit, remove, type } from "./actions";
 
-const body = "body",
-  author = "author",
+const id = "1",
   parentId = "1",
-  id = "1";
+  author = "author",
+  body = "body";
 
 describe("comment action creators", () => {
   it('should create a "create comment" action', () => {
@@ -23,14 +23,13 @@ describe("comment action creators", () => {
   });
 
   it('should create an "edit comment" action', () => {
-    const action = edit(parentId, id, {
+    const action = edit(id, {
       body
     });
     expect(action).toEqual({
       type: type.EDIT_COMMENT,
       payload: {
         id: "1",
-        parentId: "1",
         body,
         timestamp: action.payload.timestamp
       }
@@ -38,10 +37,10 @@ describe("comment action creators", () => {
   });
 
   it('should create a "remove comment" action', () => {
-    const action = remove("1", "1");
+    const action = remove("1");
     expect(action).toEqual({
       type: type.REMOVE_COMMENT,
-      payload: { id: "1", parentId: "1" }
+      payload: { id: "1" }
     });
   });
 });

@@ -15,7 +15,7 @@ const body = "body",
 describe("comment reducer", () => {
   const store = createStore(reducer);
 
-  it("should update the redux state as expected when creating a new comment", () => {
+  it("should process a create comment action", () => {
     const testPost = create(parentId, {
       body,
       author
@@ -25,19 +25,17 @@ describe("comment reducer", () => {
 
     expect(comments).toEqual({
       "1": {
-        "1": {
-          body,
-          author,
-          timestamp: testPost.payload.timestamp,
-          voteScore: 1,
-          parentId
-        }
+        body,
+        author,
+        timestamp: testPost.payload.timestamp,
+        voteScore: 1,
+        parentId
       }
     });
   });
 
-  it("should update the redux state as expected when editing a comment", () => {
-    const testPost = edit("1", "1", {
+  it("should process an edit comment action", () => {
+    const testPost = edit("1", {
       body: "new body"
     });
     store.dispatch(testPost);
@@ -45,27 +43,23 @@ describe("comment reducer", () => {
 
     expect(comments).toEqual({
       "1": {
-        "1": {
-          id: "1",
-          body: "new body",
-          author,
-          timestamp: testPost.payload.timestamp,
-          voteScore: 1,
-          parentId
-        }
+        id: "1",
+        body: "new body",
+        author,
+        timestamp: testPost.payload.timestamp,
+        voteScore: 1,
+        parentId
       }
     });
   });
 
-  it("should update the redux state as expected when removing a comment", () => {
-    const testPost = remove("1", "1");
+  it("should process a remove comment action", () => {
+    const testPost = remove("1");
     store.dispatch(testPost);
     const comments = store.getState();
 
     expect(comments).not.toEqual({
-      "1": {
-        "1": expect.any(Object)
-      }
+      "1": expect.any(Object)
     });
   });
 });

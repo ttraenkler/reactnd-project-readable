@@ -1,5 +1,5 @@
 /** comment type as received from server */
-export type Comment = {
+export type CommentType = {
   id: string, // Unique identifier
   parentId: string, // id of the parent post
   timestamp: number, //	Time created - default data tracks this in Unix time. You can use Date.now() to get this number
@@ -8,6 +8,6 @@ export type Comment = {
   voteScore: number //	Net votes the comment has received (default: 1)
 };
 
-export type Comments = {
+export type CommentsType = {
   [commentId: string]: Comment
 };

@@ -1,4 +1,5 @@
-import * as load from "./load";
-import * as vote from "./vote";
+import * as post from "./post";
+import * as comment from "./comment";
+import * as category from "./category";
 
-export { load, vote };
+export { post, comment, category };

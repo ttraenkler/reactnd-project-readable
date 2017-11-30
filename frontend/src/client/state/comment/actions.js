@@ -82,15 +82,12 @@ export const create = (postId: string, comment: Comment): CreateComment => ({
 });
 
 /** edit comment action creator */
-export const edit = (
-  id: string,
-  comment: Comment
-): EditComment => ({
+export const edit = (id: string, data: { body: string }): EditComment => ({
   type: type.EDIT_COMMENT,
   payload: {
     id,
     timestamp: Date.now(),
-    body: comment.body
+    body: data.body
   }
 });
 

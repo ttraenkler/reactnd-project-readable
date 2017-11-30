@@ -20,9 +20,11 @@ export const reducer = (state: Posts = {}, action: Action) => {
   switch (action.type) {
     case type.LOAD_POSTS: {
       const newState = {};
-      payload.posts.forEach(
-        post => (newState[post.id] = { ...post, comments: [] })
-      );
+      if (payload && payload.posts) {
+        payload.posts.forEach(
+          post => (newState[post.id] = { ...post, comments: [] })
+        );
+      }
       return newState;
     }
 
@@ -44,7 +46,8 @@ export const reducer = (state: Posts = {}, action: Action) => {
         ...state,
         [payload.id]: {
           ...state[payload.id],
-          payload
+          title: payload.title,
+          body: payload.body
         }
       };
     }
@@ -57,8 +60,6 @@ export const reducer = (state: Posts = {}, action: Action) => {
 
     case type.VOTE_POST: {
       const newState = { ...state };
-      console.log("state", state);
-      console.log("action", action);
       newState[payload.id] = {
         ...state[payload.id],
         voteScore: state[payload.id].voteScore + (payload.like ? 1 : -1)

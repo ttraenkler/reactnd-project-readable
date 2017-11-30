@@ -1,6 +1,9 @@
-import { create, edit, remove, type } from "./actions";
+import { create, edit, remove, vote, type } from "./actions";
 
-const body = "body",
+const { CREATE_POST, EDIT_POST, REMOVE_POST, VOTE_POST } = type;
+
+const id = "1",
+  body = "body",
   author = "author",
   title = "title",
   category = "category",
@@ -15,7 +18,7 @@ describe("post action creators", () => {
       category
     });
     expect(action).toEqual({
-      type: type.CREATE_POST,
+      type: CREATE_POST,
       payload: {
         body,
         author,
@@ -27,7 +30,7 @@ describe("post action creators", () => {
   });
 
   it('should create an "edit post" action', () => {
-    const action = edit(1, {
+    const action = edit(id, {
       body,
       author,
       title,
@@ -35,24 +38,28 @@ describe("post action creators", () => {
       voteScore
     });
     expect(action).toEqual({
-      type: type.EDIT_POST,
+      type: EDIT_POST,
       payload: {
-        id: 1,
+        id,
         body,
-        author,
-        title,
-        category,
-        voteScore,
-        timestamp: action.payload.timestamp
+        title
       }
     });
   });
 
   it('should create a "remove post" action', () => {
-    const action = remove(1);
+    const action = remove(id);
     expect(action).toEqual({
-      type: type.REMOVE_POST,
-      payload: { id: 1 }
+      type: REMOVE_POST,
+      payload: { id }
+    });
+  });
+
+  it('should create a "vote on post" action', () => {
+    const action = vote(id, true);
+    expect(action).toEqual({
+      type: VOTE_POST,
+      payload: { id, like: true }
     });
   });
 });

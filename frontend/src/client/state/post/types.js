@@ -5,5 +5,6 @@ export type Post = {
   body: string, //	Post body
   author: string, //	Post author
   category: string, //	Should be one of the categories provided by the server
-  voteScore: number //	Net votes the post has received (default: 1)
+  voteScore: number, //	Net votes the post has received (default: 1)
+  commentCount: number // number of comments on this post
 };

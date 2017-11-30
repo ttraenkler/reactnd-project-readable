@@ -100,17 +100,17 @@ export const create = ({
 /** edit an existing post */
 export const edit = (
   id: string,
-  { title, body, author, category, voteScore }: Post
+  data: {
+    title: string,
+    body: string
+  }
 ): EditPostAction => ({
   type: type.EDIT_POST,
   payload: {
     id,
-    timestamp: Date.now(),
-    title,
-    body,
-    author,
-    category,
-    voteScore
+    // TODO: missing timestamp
+    title: data.title,
+    body: data.body
   }
 });
 
