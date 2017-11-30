@@ -1,22 +1,51 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import type PostType from "../../client/state/post/types";
+
+type Props = {
+  categories: { name: string, path: string }[],
+  post?: PostType
+};
 
 class PostForm extends Component {
-  static props: {
-    categories: any[]
-  };
-  state = { author: "", title: "", body: "", category: "" };
-  onChange = (field, event) => this.setState({ [field]: event.target.value });
+  static props: Props;
+
+  constructor(props) {
+    super(props);
+    const { post, categories } = this.props;
+    this.state = {
+      post: post
+        ? post
+        : { id: "", author: "", title: "", body: "", category: "" },
+      categories
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { post, categories } = this.newProps;
+    this.setState({ post, categories });
+  }
+
+  onChange = (field, event) =>
+    this.setState({ post: { [field]: event.target.value } });
+
   onSubmit = event => {
     console.log("event =", event);
     console.log("state =", this.state);
+    if (this.props.post && this.props.post.id) {
+      console.log("edit post", this.props.post.id);
+    } else {
+      console.log("create new post");
+    }
     event.preventDefault();
   };
 
   // TODO: load categories data from server
   // TODO: prepopulate form when editing a post
   render() {
-    const { categories } = this.props;
+    console.log("state", this.state);
+    const { post, categories } = this.state;
+    const { author, title, body, category } = post;
     return (
       <div>
         <form onSubmit={this.onSubmit}>
@@ -25,7 +54,7 @@ class PostForm extends Component {
             <input
               type="text"
               name="author"
-              value={this.state.author}
+              value={author}
               onChange={event => this.onChange("author", event)}
             />
           </label>
@@ -35,7 +64,7 @@ class PostForm extends Component {
             <input
               type="text"
               name="title"
-              value={this.state.title}
+              value={title}
               onChange={event => this.onChange("title", event)}
             />
           </label>
@@ -46,7 +75,7 @@ class PostForm extends Component {
               name="body"
               cols="40"
               rows="5"
-              value={this.state.body}
+              value={body}
               onChange={event => this.onChange("body", event)}
             />
           </label>
@@ -55,7 +84,7 @@ class PostForm extends Component {
             Category:<br />
             <select
               name="categories"
-              value={this.state.category}
+              value={category}
               onChange={event => this.onChange("category", event)}
             >
               <option key="-" value="-">

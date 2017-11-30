@@ -1,27 +1,57 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Votes from "./Votes";
+import Vote from "./Vote";
+import { post } from "../../client";
 import type PostType from "../../../state/posts";
+import { EditButton, DeleteButton } from "./buttons";
 
 type Props = {
   post: PostType
 };
 
-class PostSummary extends Component<Props> {
-  onVote = (like: boolean) => {
-    console.log("voted on Post", like);
-  };
+// TODO: make edit and delete buttons work
+class PostSummary extends Component {
+  static props: Props;
 
   render() {
-    const { id, title, body, voteScore } = this.props.post;
+    const {
+      id,
+      title,
+      voteScore,
+      commentCount,
+      category,
+      author
+    } = this.props.post;
     return (
-      <Link to={`/post/${id}`} className="post">
-        <h2>{title}</h2>
-        <div className="post-body">{body}</div>
-        <Votes votes={voteScore} />
-      </Link>
+      <div>
+        <Link to={`/${category}/${id}`} className="post">
+          <h2>{title}</h2>
+        </Link>
+        <div
+          style={{
+            color: "rgb(200,200,200)",
+            fontSize: 12,
+            marginBottom: 15
+          }}
+        >
+          Author: {author}{" "}
+          <Vote
+            votes={voteScore}
+            onVote={like => this.props.onVote(this.props.post.id, like)}
+          />{" "}
+          Comments: {commentCount} <EditButton /> <DeleteButton />
+        </div>
+      </div>
     );
   }
 }
 
-export default PostSummary;
+export default connect(
+  state => ({}),
+  dispatch => ({
+    onVote: async (postId: string, like: boolean) => {
+      dispatch(await post.vote(postId, like));
+    }
+  })
+)(PostSummary);

@@ -15,16 +15,7 @@ export default class Comments extends Component<Props> {
     // TODO: add new comment control with inline comment form
     return (
       <div>
-        {comments.map(comment => (
-          <Comment
-            key={comment.id}
-            id={comment.id}
-            parentId={comment.parentId}
-            author={comment.author}
-            timestamp={comment.timestamp}
-            body={comment.body}
-          />
-        ))}
+        {comments.map(comment => <Comment key={comment.id} id={comment.id} />)}
         <Form />
       </div>
     );

@@ -12,7 +12,7 @@ export class Categories extends PureComponent {
           All{" "}
         </Link>
         {categories.map(category => (
-          <Link key={category.path} to={`/category/${category.path}`}>
+          <Link key={category.path} to={`/${category.path}`}>
             {category.name}{" "}
           </Link>
         ))}

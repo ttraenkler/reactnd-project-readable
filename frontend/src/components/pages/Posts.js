@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Categories, Posts, PostControl, SortControl } from "../elements";
-import { load } from "../../client";
+import { post, category } from "../../client";
 
 export class PostsPage extends Component {
   state = {
@@ -27,7 +27,7 @@ export class PostsPage extends Component {
         </div>
         <Posts
           posts={posts}
-          category={match.params.id}
+          category={match.params.category}
           sortBy={this.state.sortBy}
         />
         <PostControl />
@@ -40,8 +40,8 @@ export default connect(
   state => ({ categories: state.categories, posts: state.posts }),
   dispatch => ({
     load: async () => {
-      dispatch(await load.posts());
-      dispatch(await load.categories());
+      dispatch(await post.load());
+      dispatch(await category.load());
     }
   })
 )(PostsPage);

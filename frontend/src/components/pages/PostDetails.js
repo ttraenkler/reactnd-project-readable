@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Post from "../elements/Post";
 import Comments from "../elements/lists/Comments";
-import { load } from "../../client";
+import { post, comment } from "../../client";
 import type { Post as PostType } from "../../state/post/types";
 import type { Comment as CommentType } from "../../state/comment/types";
 
@@ -56,9 +56,9 @@ export default connect(
     };
   },
   dispatch => ({
-    load: async (postId: number) => {
-      dispatch(await load.post(postId));
-      dispatch(await load.comments(postId));
+    load: async (postId: string) => {
+      dispatch(await post.load(postId));
+      dispatch(await comment.load(postId));
     }
   })
 )(PostDetails);
