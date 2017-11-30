@@ -5,8 +5,8 @@ export type Props = {
 };
 
 const Votes = ({ votes }: Props) => (
-  <div style={{ margin: 10 }}>
-    Votes: {votes} {" "}
+  <span>
+    Votes: {votes}{" "}
     {votes >= 0 ? (
       <span role="img" aria-label="thumb up">
         &#128077;
@@ -16,7 +16,7 @@ const Votes = ({ votes }: Props) => (
         &#128078;
       </span>
     )}
-  </div>
+  </span>
 );
 
 export default Votes;

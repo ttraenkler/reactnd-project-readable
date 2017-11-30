@@ -4,7 +4,7 @@ export type Props = {
   onVote: boolean => void
 };
 
-const fontSize = 30;
+const fontSize = 18;
 
 const Vote = ({ votes, onVote, children }: Props) => (
   <span>
