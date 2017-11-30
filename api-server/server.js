@@ -11,7 +11,9 @@ const comments = require("./comments");
 const log = {
   request(req) {
     console.log(
-      `request = ${req.method} ${req.path} ${JSON.stringify(req.body, null, 2)}`
+      `request = ${req.method} ${req.path} ${
+        req.body ? JSON.stringify(req.body, null, 2) : ""
+      }`
     );
   },
   data(data) {
