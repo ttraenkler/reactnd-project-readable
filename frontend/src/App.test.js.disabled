@@ -1,4 +1,4 @@
-jest.mock("./client/load", () => ({
+/* jest.mock("./client/request/post", () => ({
   posts: jest.fn(() => [
     {
       id: "8xf0y6ziyjabvozdd253nd",
@@ -59,7 +59,7 @@ jest.mock("./client/load", () => ({
       parentDeleted: false
     }
   ])
-}));
+})); */
 
 /* eslint-disable import/first */
 import React from "react";
