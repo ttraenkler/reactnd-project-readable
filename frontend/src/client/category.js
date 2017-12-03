@@ -5,6 +5,5 @@ import { category as action } from "./state/actions";
 export async function load(): void {
   const response = await request.load();
   const result = action.load(response);
-  console.log("loaded categories", result);
   return result;
 }

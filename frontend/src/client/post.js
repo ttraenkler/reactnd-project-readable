@@ -30,21 +30,18 @@ export async function publish(post: PostType): CreatePostAction {
 }
 
 /** edit post on server and returns as action */
-export async function edit(
-  postId: ID,
-  title: string,
-  body: string
-): EditPostAction {
-  await request.edit(postId, title, body);
+export async function edit(postId: ID, post): EditPostAction {
+  await request.edit(postId, post);
   // TODO: check response and pass to action
-  const result = action.edit(postId, title, body);
+  const result = action.edit(postId, post);
   console.log("edited post", postId, result);
   return result;
 }
 
 /** deletes post from server and returns as action */
 export async function unpublish(postId: string): RemovePostAction {
-  const result = action.remove(await request.remove(postId));
+  await request.unpublish(postId);
+  const result = action.remove(postId);
   console.log("removed post", postId, result);
   return result;
 }

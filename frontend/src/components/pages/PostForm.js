@@ -1,15 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import type PostType from "../../client/state/post/types";
-import { post } from "../../client";
+import { post, category } from "../../client";
 
-type Props = {
+const action = { post, category };
+
+export type Props = {
   postId: string,
   categories: { name: string, path: string }[],
   post?: PostType
 };
 
-class PostForm extends Component {
+export class PostForm extends Component {
   static props: Props;
 
   constructor(props) {
@@ -21,7 +24,8 @@ class PostForm extends Component {
         author,
         title,
         body,
-        category
+        category,
+        submit: false
       };
     } else {
       this.state = {
@@ -34,8 +38,8 @@ class PostForm extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.load(this.props.id);
+  async componentWillMount() {
+    await this.props.load(this.props.id);
   }
 
   componentWillReceiveProps(newProps) {
@@ -53,22 +57,31 @@ class PostForm extends Component {
 
   onChange = (field, event) => this.setState({ [field]: event.target.value });
 
-  onSubmit = event => {
-    console.log("event =", event);
-    console.log("state =", this.state);
-    if (this.props.id) {
-      this.props.edit();
-    } else {
-      this.props.create();
-    }
+  onSubmit = async event => {
+    const { id, author, title, body, category } = this.state;
     event.preventDefault();
+    if (this.props.id) {
+      await this.props.edit(id, { title, body });
+    } else {
+      await this.props.create({
+        id,
+        author,
+        title,
+        body,
+        category
+      });
+    }
+    await this.setState({ submit: true });
   };
 
   // TODO: load categories data from server
   // TODO: prepopulate form when editing a post
   render() {
-    console.log("props", this.props, "state", this.state);
-    const { author, title, body, category } = this.state;
+    const { id, author, title, body, category, submit } = this.state;
+    if (submit) {
+      return <Redirect to={`/${category}/${id}`} push />;
+    }
+    console.log("render state", this.state);
     return (
       <div>
         <form onSubmit={this.onSubmit}>
@@ -77,7 +90,7 @@ class PostForm extends Component {
             <input
               type="text"
               name="author"
-              value={author}
+              value={author || ""}
               onChange={event => this.onChange("author", event)}
             />
           </label>
@@ -87,7 +100,7 @@ class PostForm extends Component {
             <input
               type="text"
               name="title"
-              value={title}
+              value={title || ""}
               onChange={event => this.onChange("title", event)}
             />
           </label>
@@ -98,7 +111,7 @@ class PostForm extends Component {
               name="body"
               cols="40"
               rows="5"
-              value={body}
+              value={body || ""}
               onChange={event => this.onChange("body", event)}
             />
           </label>
@@ -107,7 +120,7 @@ class PostForm extends Component {
             Category:<br />
             <select
               name="categories"
-              value={category}
+              value={category || ""}
               onChange={event => this.onChange("category", event)}
             >
               <option key="-" value="-">
@@ -122,7 +135,7 @@ class PostForm extends Component {
           </label>
           <br />
           <div style={{ marginTop: "15px" }}>
-            <input type="submit" />
+            <input type="submit" value="Publish" />
           </div>
         </form>
       </div>
@@ -139,14 +152,14 @@ export default connect(
   }),
   dispatch => ({
     load: async (id: string) => {
-      console.log("load post", id, "+ categories");
+      dispatch(await action.post.load(id));
+      dispatch(await action.category.load());
     },
     edit: async (postId: string, post) => {
-      console.log("edit post");
-      post.edit(postId, post.title, post.body);
+      dispatch(await action.post.edit(postId, post));
     },
-    create: async () => {
-      console.log("create new post");
+    create: async post => {
+      dispatch(await action.post.create(post));
     }
   })
 )(PostForm);

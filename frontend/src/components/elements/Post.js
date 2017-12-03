@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { formatDate } from "../../date";
 import Vote from "./Vote";
 import { post } from "../../client";
@@ -15,20 +15,28 @@ type Props = {
 class Post extends Component {
   static props: Props;
 
+  state = {
+    deleted: false
+  };
+
   onVote = (like: boolean) => {
-    this.props.onVote(this.props.post.id, like);
+    this.props.vote(this.props.post.id, like);
   };
 
   onEdit = () => {
     console.log("Post::onEdit");
   };
 
-  onDelete = () => {
+  onDelete = async () => {
+    await this.props.unpublish(this.props.post.id);
+    await this.setState({ deleted: true });
     console.log("Post::onDelete");
   };
 
   render() {
+    if (this.state.deleted) return <Redirect to="/" push />;
     if (!this.props.post) return null;
+
     const {
       id,
       title,
@@ -64,8 +72,11 @@ class Post extends Component {
 export default connect(
   state => ({}),
   dispatch => ({
-    onVote: async (postId: string, like: boolean) => {
+    vote: async (postId: string, like: boolean) => {
       dispatch(await post.vote(postId, like));
+    },
+    unpublish: async (postId: string) => {
+      dispatch(await post.unpublish(postId));
     }
   })
 )(Post);

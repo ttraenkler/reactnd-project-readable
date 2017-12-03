@@ -8,6 +8,5 @@ export async function load() {
     headers: { Authorization: token }
   });
   const json = await response.json();
-  console.log("loaded categories", json.categories);
   return json.categories;
 }

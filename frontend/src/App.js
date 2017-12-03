@@ -16,7 +16,7 @@ export default class App extends Component {
             <Route exact path="/" component={Posts} />
             <Route exact path="/:category" component={Posts} />
             <Route exact path="/:category/:id" component={PostDetails} />
-            <Route exact path="/post/edit/:id" component={PostForm} />
+            <Route path="/post/edit/:id" component={PostForm} />
           </div>
         </div>
       </BrowserRouter>
