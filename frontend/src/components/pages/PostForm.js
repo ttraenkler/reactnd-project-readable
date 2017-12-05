@@ -25,7 +25,8 @@ export class PostForm extends Component {
         title,
         body,
         category,
-        submit: false
+        submit: false,
+        loaded: false
       };
     } else {
       this.state = {
@@ -33,13 +34,15 @@ export class PostForm extends Component {
         author: "",
         title: "",
         body: "",
-        category: ""
+        category: "",
+        loaded: false
       };
     }
   }
 
-  async componentWillMount() {
-    await this.props.load(this.props.id);
+  async componentDidMount() {
+    if (this.props.id) await this.props.load(this.props.id);
+    this.setState({ loaded: true });
   }
 
   componentWillReceiveProps(newProps) {
@@ -73,9 +76,8 @@ export class PostForm extends Component {
     await this.setState({ submit: true });
   };
 
-  // TODO: load categories data from server
-  // TODO: prepopulate form when editing a post
   render() {
+    if (!this.state.loaded) return null;
     const { author, title, body, category, submit } = this.state;
     if (submit) {
       return <Redirect to="/" push />;

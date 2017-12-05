@@ -10,7 +10,6 @@ type Props = {
   post: PostType
 };
 
-// TODO: make edit and delete buttons work
 class PostSummary extends Component {
   static props: Props;
 

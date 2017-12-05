@@ -5,11 +5,13 @@ import { post, category } from "../../client";
 
 export class PostsPage extends Component {
   state = {
-    sortBy: "votes"
+    sortBy: "votes",
+    loaded: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.load();
+    this.setState({ loaded: true });
   }
 
   onChange = e => {
@@ -18,8 +20,7 @@ export class PostsPage extends Component {
 
   render() {
     const { categories, posts, match } = this.props;
-    // TODO: load posts for category only?
-    return (
+    return this.state.loaded ? (
       <div>
         <div style={{ marginBottom: "30px" }}>
           <Categories categories={categories} />
@@ -32,7 +33,7 @@ export class PostsPage extends Component {
         />
         <PostControl />
       </div>
-    );
+    ) : null;
   }
 }
 

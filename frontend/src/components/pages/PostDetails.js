@@ -30,7 +30,6 @@ class PostDetails extends Component<Props> {
   render() {
     const { loaded, redirect } = this.state;
     const { id, post, comments } = this.props;
-    // TODO: edit / delete controls
     return redirect ? (
       <Redirect to="/" />
     ) : (

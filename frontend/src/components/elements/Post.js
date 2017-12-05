@@ -11,7 +11,6 @@ type Props = {
   post: ?PostType
 };
 
-// TODO: make edit and delete buttons work
 class Post extends Component {
   static props: Props;
 
@@ -23,15 +22,9 @@ class Post extends Component {
     this.props.vote(this.props.post.id, like);
   };
 
-  onEdit = () => {
-    console.log("Post::onEdit"); // TODO: implement
-  };
-
   onDelete = async () => {
-    // TODO: implement
     await this.props.unpublish(this.props.post.id);
     await this.setState({ deleted: true });
-    console.log("Post::onDelete");
   };
 
   render() {

@@ -41,7 +41,6 @@ export async function edit(
   postId: ID,
   data: { title: string, body: string, timestamp: number }
 ) {
-  // TODO: missing timestamp?
   return await fetch(`${url}/posts/${postId}`, {
     headers: {
       Authorization: token,

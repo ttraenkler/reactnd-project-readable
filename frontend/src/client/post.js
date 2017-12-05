@@ -51,6 +51,6 @@ export async function unpublish(postId: string): RemovePostAction {
 /** vote on post on server and returns as action */
 export async function vote(postId: string, like: boolean): VoteOnPostAction {
   console.log("vote on post");
-  await request.vote(postId, like); // TODO: check if successful missing
+  await request.vote(postId, like);
   return action.vote(postId, like);
 }

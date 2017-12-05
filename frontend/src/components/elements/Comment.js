@@ -107,9 +107,7 @@ export class Comment extends Component {
   };
 
   onEdit = () => {
-    // TODO: set id
     this.setState({ editing: true });
-    console.log("Comment::onEdit");
   };
 
   onUnpublish = () => {
@@ -119,7 +117,6 @@ export class Comment extends Component {
   onChange = (field, event) => this.setState({ [field]: event.target.value });
 
   onSubmit = async event => {
-    // TODO: submit comment edits to server
     const { author, body } = this.state;
     const { comment, edit, publish } = this.props;
     event.preventDefault();
@@ -137,7 +134,6 @@ export class Comment extends Component {
 
   render() {
     const { editing, author, body, timestamp, voteScore } = this.state;
-    // TODO: comment id is missing in props
     return (
       <CommentBox>
         {editing ? (
@@ -156,7 +152,7 @@ export class Comment extends Component {
           <Vote votes={voteScore} onVote={this.onVote} />{" "}
         </Footer>
       </CommentBox>
-    ); // TODO: make edit and delete buttons work
+    );
   }
 }
 
@@ -172,7 +168,6 @@ export default connect(
         await action.unpublish(props.comment.parentId, props.comment.id)
       );
     },
-    // TODO: misssing side effect of vote action (server update)
     vote: async (like: boolean) => {
       console.log("vote");
       dispatch(await action.vote(props.comment.id, like));
