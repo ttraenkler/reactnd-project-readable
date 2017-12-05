@@ -48,10 +48,12 @@ const Author = styled.span`
   font-size: 12px;
 `;
 
-const Publication = ({ author, timestamp }) => [
-  <Author key="author">{author}</Author>,
-  <Date key="date">{formatDate(timestamp)}</Date>
-];
+const Publication = ({ author, timestamp }) => (
+  <span>
+    <Author key="author">{author}</Author>{" "}
+    <Date key="date">{formatDate(timestamp)}</Date>
+  </span>
+);
 
 type Props = {
   comment: CommentType,

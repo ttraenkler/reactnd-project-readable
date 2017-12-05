@@ -53,7 +53,7 @@ export class CommentForm extends Component {
         body
       });
     }
-    await this.setState({ submit: true });
+    await this.setState({ submit: true, author: "", body: "" });
   };
 
   render() {
