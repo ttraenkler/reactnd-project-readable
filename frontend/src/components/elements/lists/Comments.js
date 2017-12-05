@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Comment from "../Comment";
 import CommentForm from "../CommentForm";
 import type { Comments as CommentsType } from "../../../client/state/comment/types";

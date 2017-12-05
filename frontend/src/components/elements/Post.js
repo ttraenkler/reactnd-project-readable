@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { formatDate } from "../../date";
 import Vote from "./Vote";
 import { post } from "../../client";
