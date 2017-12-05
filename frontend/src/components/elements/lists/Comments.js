@@ -13,9 +13,6 @@ export default class Comments extends Component {
 
   render() {
     const { postId, comments } = this.props;
-
-    // TODO: sort by vote score
-    // TODO: add new comment control with inline comment form
     return (
       <div>
         {comments.map(comment => (

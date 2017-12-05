@@ -35,7 +35,6 @@ export async function publish(post: PostType): CreatePostAction {
 export async function edit(postId: ID, post): EditPostAction {
   const editedPost = { ...post, timestamp: Date.now() };
   await request.edit(postId, editedPost);
-  // TODO: check response and pass to action
   const result = action.edit(postId, editedPost);
   console.log("edited post", postId, result);
   return result;

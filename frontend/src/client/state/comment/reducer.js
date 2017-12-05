@@ -29,7 +29,6 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
     }
 
     case PUBLISH_COMMENT: {
-      // TODO: add this to parent post comment ids array
       const newState = { ...state };
       newState[payload.id] = {
         ...payload,

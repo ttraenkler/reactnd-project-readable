@@ -47,7 +47,6 @@ export async function unpublish(commentId: string) {
   });
 }
 
-// TODO: use this
 export async function vote(commentId: string, like: boolean) {
   return await fetch(`${url}/comments/${commentId}`, {
     headers: {

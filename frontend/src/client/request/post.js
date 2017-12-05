@@ -37,7 +37,10 @@ export async function publish(post: Post) {
 }
 
 // edit an existing post on the server
-export async function edit(postId: ID, data: { title: string, body: string }) {
+export async function edit(
+  postId: ID,
+  data: { title: string, body: string, timestamp: number }
+) {
   // TODO: missing timestamp?
   return await fetch(`${url}/posts/${postId}`, {
     headers: {
@@ -48,7 +51,8 @@ export async function edit(postId: ID, data: { title: string, body: string }) {
     method: "PUT",
     body: JSON.stringify({
       title: data.title || null,
-      body: data.body || null
+      body: data.body || null,
+      timestamp: data.timestamp || null
     })
   });
 }
@@ -63,7 +67,6 @@ export async function unpublish(postId: ID) {
   });
 }
 
-// TODO: use this
 // vote on a post on the server
 export async function vote(postId: ID, like: boolean) {
   return await fetch(`${url}/posts/${postId}`, {

@@ -104,15 +104,16 @@ export const edit = (
   id: string,
   data: {
     title: string,
-    body: string
+    body: string,
+    timestamp: number
   }
 ): EditPostAction => ({
   type: type.EDIT_POST,
   payload: {
     id,
-    // TODO: missing timestamp
     title: data.title,
-    body: data.body
+    body: data.body,
+    timestamp: data.timestamp
   }
 });
 

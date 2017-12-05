@@ -42,13 +42,15 @@ describe("post requests", () => {
   });
 
   it("should edit the post on the server", async () => {
-    await edit("1", { title: "new title", body: "new body" });
+    const timestamp = Date.now();
+    await edit("1", { title: "new title", body: "new body", timestamp });
     await expect(load("1")).resolves.toEqual({
       ...test.newPost,
       title: "new title",
       body: "new body",
       commentCount: 0,
-      deleted: false
+      deleted: false,
+      timestamp
     });
   });
 

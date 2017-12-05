@@ -5,35 +5,35 @@ import Comments from "../elements/lists/Comments";
 import { post, comment } from "../../client";
 import type { Post as PostType } from "../../state/post/types";
 import type { Comment as CommentType } from "../../state/comment/types";
-
+import { Redirect } from "react-router-dom";
 type Props = {
   post: PostType,
   comments: CommentType[]
 };
 
 class PostDetails extends Component<Props> {
-  state = { loaded: false };
+  state = { loaded: false, redirect: false };
 
-  async componentWillMount() {
-    console.log("PostDetails::componentWillMount props", this.props);
+  async componentDidMount() {
     await this.props.load(this.props.id);
-    console.log(
-      "PostDetails::componentWillMount props after loading",
-      this.props
-    );
-    this.setState(
-      {
+    if (this.props.post) {
+      this.setState({
         loaded: true
-      },
-      () => console.log("PostDetails::componentWillMount state", this.state)
-    );
+      });
+    } else {
+      this.setState({
+        redirect: true
+      });
+    }
   }
 
   render() {
-    const { loaded } = this.state;
+    const { loaded, redirect } = this.state;
     const { id, post, comments } = this.props;
     // TODO: edit / delete controls
-    return (
+    return redirect ? (
+      <Redirect to="/" />
+    ) : (
       <div>
         {loaded ? <Post post={post} /> : null}
         {loaded ? <Comments postId={id} comments={comments} /> : null}

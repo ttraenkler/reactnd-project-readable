@@ -108,7 +108,6 @@ export class Comment extends Component {
 
   onEdit = () => {
     // TODO: set id
-    // TODO: on finish editing publish and disable editing
     this.setState({ editing: true });
     console.log("Comment::onEdit");
   };
