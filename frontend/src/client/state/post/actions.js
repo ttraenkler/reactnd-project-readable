@@ -82,6 +82,7 @@ export const load = (posts: Post[]): LoadPostsAction => ({
 
 /** create a new post */
 export const publish = ({
+  id,
   title,
   body,
   author,
@@ -89,11 +90,12 @@ export const publish = ({
 }: Post): CreatePostAction => ({
   type: type.PUBLISH_POST,
   payload: {
-    timestamp: Date.now(),
+    id,
     title,
     body,
     author,
-    category
+    category,
+    timestamp: Date.now()
   }
 });
 

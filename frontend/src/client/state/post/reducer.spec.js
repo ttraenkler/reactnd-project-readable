@@ -1,6 +1,6 @@
 import { createStore } from "redux";
 import { reducer } from "./reducer";
-import { create, edit, remove, vote } from "./actions";
+import { publish, edit, unpublish, vote } from "./actions";
 
 const body = "body",
   author = "author",
@@ -10,7 +10,7 @@ const body = "body",
 describe("post reducer", () => {
   const store = createStore(reducer);
   let postId;
-  const testPost = create({
+  const testPost = publish({
     body,
     author,
     title,
@@ -71,7 +71,7 @@ describe("post reducer", () => {
   });
 
   it("should process a remove post action", () => {
-    store.dispatch(remove(postId));
+    store.dispatch(unpublish(postId));
     const posts = store.getState();
 
     expect(Object.keys(posts).map(key => posts[key])).not.toContainEqual({

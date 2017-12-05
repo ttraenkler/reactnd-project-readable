@@ -9,13 +9,15 @@ import { reducer } from "./reducer";
 
 const body = "body",
   author = "author",
-  parentId = "1";
+  parentId = "1",
+  id = "1";
 
 describe("comment reducer", () => {
   const store = createStore(reducer);
 
   it("should process a publish comment action", () => {
     const testPost = publish({
+      id,
       parentId,
       body,
       author
@@ -24,7 +26,8 @@ describe("comment reducer", () => {
     const comments = store.getState();
 
     expect(comments).toEqual({
-      "1": {
+      [id]: {
+        id,
         body,
         author,
         timestamp: testPost.payload.timestamp,
@@ -42,8 +45,8 @@ describe("comment reducer", () => {
     const comments = store.getState();
 
     expect(comments).toEqual({
-      "1": {
-        id: "1",
+      [id]: {
+        id,
         body: "new body",
         author,
         timestamp: testPost.payload.timestamp,
@@ -54,12 +57,12 @@ describe("comment reducer", () => {
   });
 
   it("should process a remove comment action", () => {
-    const testPost = unpublish("1", "1");
+    const testPost = unpublish(parentId, id);
     store.dispatch(testPost);
     const comments = store.getState();
 
     expect(comments).not.toEqual({
-      "1": expect.any(Object)
+      [id]: expect.any(Object)
     });
   });
 });

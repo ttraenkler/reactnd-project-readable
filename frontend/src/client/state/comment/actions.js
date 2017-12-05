@@ -74,6 +74,7 @@ export const load = (comments: Comment[]): LoadComments => ({
 export const publish = (comment: Comment): CreateComment => ({
   type: type.PUBLISH_COMMENT,
   payload: {
+    id: comment.id,
     parentId: comment.parentId,
     body: comment.body,
     author: comment.author,
