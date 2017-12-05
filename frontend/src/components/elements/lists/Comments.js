@@ -8,21 +8,13 @@ export type Props = {
   comments: CommentsType
 };
 
-export default class Comments extends Component {
-  static props: Props;
+const Comments = ({ postId, comments }: Props) => (
+  <div>
+    {comments.map(comment => (
+      <Comment key={`${comment.id}${comment.timestamp}`} comment={comment} />
+    ))}
+    <CommentForm postId={postId} />
+  </div>
+);
 
-  render() {
-    const { postId, comments } = this.props;
-    return (
-      <div>
-        {comments.map(comment => (
-          <Comment
-            key={`${comment.id}${comment.timestamp}`}
-            comment={comment}
-          />
-        ))}
-        <CommentForm postId={postId} />
-      </div>
-    );
-  }
-}
+export default Comments;

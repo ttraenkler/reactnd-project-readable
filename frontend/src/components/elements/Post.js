@@ -50,9 +50,7 @@ class Post extends Component {
           <br />
           <Vote votes={voteScore} onVote={this.onVote} />
           <span style={{ marginLeft: 5 }}>Comments: {commentCount}</span>{" "}
-          <Link to={`/post/edit/${id}`}>
-            <EditButton />
-          </Link>{" "}
+          <EditButton id={id} />
           <DeleteButton onClick={this.onDelete} />
         </div>
       </div>
