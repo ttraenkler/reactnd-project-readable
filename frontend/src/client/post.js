@@ -1,3 +1,4 @@
+import uuid from "uuid";
 import { post as request } from "./request";
 import { post as action } from "./state/actions";
 import type PostType from "./state/post/types";
@@ -24,16 +25,18 @@ export async function load(postId: string = ""): LoadPostsAction {
 
 /** creates post on server and returns as action */
 export async function publish(post: PostType): CreatePostAction {
-  const result = action.create(await request.publish(post));
-  console.log("published post", post, result);
+  const newPost = { ...post, id: uuid.v1(), timestamp: Date.now() };
+  const result = action.publish(await request.publish(newPost));
+  console.log("published post", newPost, result);
   return result;
 }
 
 /** edit post on server and returns as action */
 export async function edit(postId: ID, post): EditPostAction {
-  await request.edit(postId, post);
+  const editedPost = { ...post, timestamp: Date.now() };
+  await request.edit(postId, editedPost);
   // TODO: check response and pass to action
-  const result = action.edit(postId, post);
+  const result = action.edit(postId, editedPost);
   console.log("edited post", postId, result);
   return result;
 }
@@ -41,13 +44,14 @@ export async function edit(postId: ID, post): EditPostAction {
 /** deletes post from server and returns as action */
 export async function unpublish(postId: string): RemovePostAction {
   await request.unpublish(postId);
-  const result = action.remove(postId);
-  console.log("removed post", postId, result);
+  const result = action.unpublish(postId);
+  console.log("unpublish post", postId, result);
   return result;
 }
 
 /** vote on post on server and returns as action */
 export async function vote(postId: string, like: boolean): VoteOnPostAction {
+  console.log("vote on post");
   await request.vote(postId, like); // TODO: check if successful missing
   return action.vote(postId, like);
 }

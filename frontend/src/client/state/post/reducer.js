@@ -1,4 +1,3 @@
-import uuid from "uuid";
 import { type as commentType } from "../comment/actions";
 import { type as postType } from "./actions";
 import type Post from "./types";
@@ -18,13 +17,13 @@ export const reducer = (state: Posts = {}, action: Action) => {
   const { payload } = action;
   const {
     LOAD_POSTS,
-    CREATE_POST,
+    PUBLISH_POST,
     EDIT_POST,
-    REMOVE_POST,
-    VOTE_POST,
+    UNPUBLISH_POST,
+    VOTE_ON_POST,
     LOAD_COMMENTS,
-    CREATE_COMMENT,
-    REMOVE_COMMENT
+    PUBLISH_COMMENT,
+    UNPUBLISH_COMMENT
   } = type;
 
   switch (action.type) {
@@ -38,11 +37,10 @@ export const reducer = (state: Posts = {}, action: Action) => {
       return newState;
     }
 
-    case CREATE_POST: {
-      const id = uuid.v1();
+    case PUBLISH_POST: {
       return {
         ...state,
-        [id]: {
+        [payload.id]: {
           ...payload,
           voteScore: 1,
           comments: []
@@ -62,13 +60,13 @@ export const reducer = (state: Posts = {}, action: Action) => {
       };
     }
 
-    case REMOVE_POST: {
+    case UNPUBLISH_POST: {
       const newState = { ...state };
       delete newState[payload.id];
       return newState;
     }
 
-    case VOTE_POST: {
+    case VOTE_ON_POST: {
       const newState = { ...state };
       newState[payload.id] = {
         ...state[payload.id],
@@ -79,25 +77,45 @@ export const reducer = (state: Posts = {}, action: Action) => {
 
     case LOAD_COMMENTS: {
       const newState = { ...state };
+      console.log("LOAD_COMMENTS payload =", payload);
       payload.comments.forEach(comment => {
         if (newState[comment.parentId]) {
           newState[comment.parentId].comments.push(comment.id);
         }
       });
+      console.log("LOAD_COMMENTS result =", newState);
       return newState;
     }
 
-    case CREATE_COMMENT: {
-      const newState = { ...state };
+    case PUBLISH_COMMENT: {
+      const newState = {
+        ...state,
+        [payload.parentId]: {
+          ...state[payload.parentId],
+          comments: [...state[payload.parentId].comments],
+          commentCount: state[payload.parentId].commentCount + 1
+        }
+      };
       newState[payload.parentId].comments.push(payload.id);
       return newState;
     }
 
-    case REMOVE_COMMENT: {
-      const newState = { ...state };
+    case UNPUBLISH_COMMENT: {
+      const newState = {
+        ...state,
+        [payload.parentId]: {
+          ...state[payload.parentId],
+          comments: [...state[payload.parentId].comments]
+        }
+      };
+      console.log("UNPUBLISH_COMMENT before =", newState);
+      console.log("unpublish comment payload", payload);
       const index = newState[payload.parentId].comments.indexOf(payload.id);
+      console.log("index", index);
       if (index > -1) {
-        newState[payload.parentId].comments.splice(index);
+        newState[payload.parentId].comments.splice(index, 1);
+        newState[payload.parentId].commentCount =
+          state[payload.parentId].commentCount - 1;
       } else {
         const e = {
           name: "RemoveCommentNotFoundError",
@@ -108,6 +126,7 @@ export const reducer = (state: Posts = {}, action: Action) => {
         };
         throw e;
       }
+      console.log("UNPUBLISH_COMMENT after =", newState);
       return newState;
     }
 

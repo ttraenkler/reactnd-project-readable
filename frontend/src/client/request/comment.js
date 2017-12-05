@@ -23,8 +23,8 @@ export async function publish(comment) {
 export async function edit(
   commentId: string,
   data: {
-    timestamp: number,
-    body: string
+    body: string,
+    timestamp: number
   }
 ) {
   return await fetch(`${url}/comments/${commentId}`, {

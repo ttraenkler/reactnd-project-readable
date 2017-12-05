@@ -38,6 +38,7 @@ export async function publish(post: Post) {
 
 // edit an existing post on the server
 export async function edit(postId: ID, data: { title: string, body: string }) {
+  // TODO: missing timestamp?
   return await fetch(`${url}/posts/${postId}`, {
     headers: {
       Authorization: token,

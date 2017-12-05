@@ -1,3 +1,4 @@
+import uuid from "uuid";
 import { comment as request } from "./request";
 import { comment as action } from "./state/actions";
 import type CommentType from "./state/comment/types";
@@ -11,16 +12,27 @@ export async function load(postId: string): void {
 }
 
 export async function publish(comment: CommentType) {
-  await request.publish(comment);
-  console.log("published comment", comment);
-  return action.create(comment);
+  const newComment = {
+    ...comment,
+    id: uuid.v1(),
+    timestamp: Date.now()
+  };
+  await request.publish(newComment);
+  console.log("published comment", newComment);
+  return action.publish(newComment);
 }
 
-/** loads comments for a post from server and returns as action */
-export async function unpublish(commentId: string) {
-  await request.remove(commentId);
+export async function edit(commentId: string, comment: CommentType) {
+  const editedComment = { ...comment, timestamp: Date.now() };
+  await request.edit(commentId, editedComment);
+  console.log("edited comment", editedComment);
+  return action.edit(commentId, editedComment);
+}
+
+export async function unpublish(postId: string, commentId: string) {
+  await request.unpublish(commentId);
   console.log("removed comment", commentId);
-  return action.remove(commentId);
+  return action.unpublish(postId, commentId);
 }
 
 /** upload vote on comments to server and returns as action to update redux state if succeeds */

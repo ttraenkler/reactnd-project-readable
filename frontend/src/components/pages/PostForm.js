@@ -63,8 +63,7 @@ export class PostForm extends Component {
     if (this.props.id) {
       await this.props.edit(id, { title, body });
     } else {
-      await this.props.create({
-        id,
+      await this.props.publish({
         author,
         title,
         body,
@@ -77,9 +76,9 @@ export class PostForm extends Component {
   // TODO: load categories data from server
   // TODO: prepopulate form when editing a post
   render() {
-    const { id, author, title, body, category, submit } = this.state;
+    const { author, title, body, category, submit } = this.state;
     if (submit) {
-      return <Redirect to={`/${category}/${id}`} push />;
+      return <Redirect to="/" push />;
     }
     console.log("render state", this.state);
     return (
@@ -90,6 +89,7 @@ export class PostForm extends Component {
             <input
               type="text"
               name="author"
+              autoComplete="off"
               value={author || ""}
               onChange={event => this.onChange("author", event)}
             />
@@ -100,6 +100,7 @@ export class PostForm extends Component {
             <input
               type="text"
               name="title"
+              autoComplete="off"
               value={title || ""}
               onChange={event => this.onChange("title", event)}
             />
@@ -111,6 +112,7 @@ export class PostForm extends Component {
               name="body"
               cols="40"
               rows="5"
+              autoComplete="off"
               value={body || ""}
               onChange={event => this.onChange("body", event)}
             />
@@ -158,8 +160,8 @@ export default connect(
     edit: async (postId: string, post) => {
       dispatch(await action.post.edit(postId, post));
     },
-    create: async post => {
-      dispatch(await action.post.create(post));
+    publish: async post => {
+      dispatch(await action.post.publish(post));
     }
   })
 )(PostForm);

@@ -1,4 +1,3 @@
-import uuid from "uuid";
 import { type as commentType } from "./actions";
 import { type as postType } from "../post/actions";
 import type Comments from "./types";
@@ -14,10 +13,10 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
   const { payload } = action;
   const {
     LOAD_COMMENTS,
-    CREATE_COMMENT,
+    PUBLISH_COMMENT,
     EDIT_COMMENT,
-    REMOVE_COMMENT,
-    VOTE_COMMENT
+    UNPUBLISH_COMMENT,
+    VOTE_ON_COMMENT
   } = type;
 
   switch (action.type) {
@@ -29,11 +28,10 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case CREATE_COMMENT: {
+    case PUBLISH_COMMENT: {
       // TODO: add this to parent post comment ids array
-      const id = uuid.v1();
       const newState = { ...state };
-      newState[id] = {
+      newState[payload.id] = {
         ...payload,
         voteScore: 1
       };
@@ -49,7 +47,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case REMOVE_COMMENT: {
+    case UNPUBLISH_COMMENT: {
       const newState = { ...state };
       if (newState[payload.id]) {
         delete newState[payload.id];
@@ -57,7 +55,7 @@ export const reducer = (state: Comments = {}, action: Action): Comments => {
       return newState;
     }
 
-    case VOTE_COMMENT: {
+    case VOTE_ON_COMMENT: {
       const newState = { ...state };
       if (newState[payload.id]) {
         newState[payload.id] = {

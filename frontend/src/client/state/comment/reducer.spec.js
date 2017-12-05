@@ -4,7 +4,7 @@ jest.mock("uuid", () => ({
 }));
 
 import { createStore } from "redux";
-import { create, edit, remove, load } from "./actions";
+import { publish, edit, unpublish } from "./actions";
 import { reducer } from "./reducer";
 
 const body = "body",
@@ -14,8 +14,9 @@ const body = "body",
 describe("comment reducer", () => {
   const store = createStore(reducer);
 
-  it("should process a create comment action", () => {
-    const testPost = create(parentId, {
+  it("should process a publish comment action", () => {
+    const testPost = publish({
+      parentId,
       body,
       author
     });
@@ -53,7 +54,7 @@ describe("comment reducer", () => {
   });
 
   it("should process a remove comment action", () => {
-    const testPost = remove("1");
+    const testPost = unpublish("1", "1");
     store.dispatch(testPost);
     const comments = store.getState();
 

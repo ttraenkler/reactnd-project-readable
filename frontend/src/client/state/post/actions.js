@@ -8,10 +8,10 @@ import type { Category } from "../category/types";
 /** comment action types */
 export const type = {
   LOAD_POSTS: "load posts",
-  CREATE_POST: "create post",
+  PUBLISH_POST: "create post",
   EDIT_POST: "edit post",
-  REMOVE_POST: "remove post",
-  VOTE_POST: "vote on post"
+  UNPUBLISH_POST: "remove post",
+  VOTE_ON_POST: "vote on post"
 };
 
 // ACTION TYPES ___________________________________________
@@ -24,7 +24,7 @@ export type LoadPostsAction = {
 };
 
 export type CreatePostAction = {
-  type: type.CREATE_POST,
+  type: type.PUBLISH_POST,
   payload: {
     timestamp: number,
     title: string,
@@ -48,14 +48,14 @@ export type EditPostAction = {
 };
 
 export type RemovePostAction = {
-  type: type.REMOVE_POST,
+  type: type.UNPUBLISH_POST,
   payload: {
     id: string
   }
 };
 
 export type VoteOnPostAction = {
-  type: type.VOTE_POST,
+  type: type.VOTE_ON_POST,
   payload: {
     id: string,
     like: boolean
@@ -81,13 +81,13 @@ export const load = (posts: Post[]): LoadPostsAction => ({
 });
 
 /** create a new post */
-export const create = ({
+export const publish = ({
   title,
   body,
   author,
   category
 }: Post): CreatePostAction => ({
-  type: type.CREATE_POST,
+  type: type.PUBLISH_POST,
   payload: {
     timestamp: Date.now(),
     title,
@@ -115,15 +115,15 @@ export const edit = (
 });
 
 /** remove an existing post */
-export const remove = (id: string): RemovePostAction => ({
-  type: type.REMOVE_POST,
+export const unpublish = (id: string): RemovePostAction => ({
+  type: type.UNPUBLISH_POST,
   payload: {
     id
   }
 });
 
 export const vote = (id: string, like: boolean) => ({
-  type: type.VOTE_POST,
+  type: type.VOTE_ON_POST,
   payload: {
     id,
     like

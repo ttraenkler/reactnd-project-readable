@@ -8,10 +8,10 @@ import type { Comment } from "./types";
 /** comment action type constants */
 export const type = {
   LOAD_COMMENTS: "load comments",
-  CREATE_COMMENT: "create comment",
+  PUBLISH_COMMENT: "create comment",
   EDIT_COMMENT: "edit comment",
-  REMOVE_COMMENT: "remove comment",
-  VOTE_COMMENT: "vote on comment"
+  UNPUBLISH_COMMENT: "remove comment",
+  VOTE_ON_COMMENT: "vote on comment"
 };
 
 // ACTION FLOWTYPES ___________________________________________________________
@@ -71,13 +71,13 @@ export const load = (comments: Comment[]): LoadComments => ({
 });
 
 /** create comment action creator */
-export const create = (postId: string, comment: Comment): CreateComment => ({
-  type: type.CREATE_COMMENT,
+export const publish = (comment: Comment): CreateComment => ({
+  type: type.PUBLISH_COMMENT,
   payload: {
-    parentId: postId,
-    timestamp: Date.now(),
+    parentId: comment.parentId,
     body: comment.body,
-    author: comment.author
+    author: comment.author,
+    timestamp: Date.now()
   }
 });
 
@@ -92,16 +92,20 @@ export const edit = (id: string, data: { body: string }): EditComment => ({
 });
 
 /** remove comment action creator */
-export const remove = (id: string): RemoveComment => ({
-  type: type.REMOVE_COMMENT,
+export const unpublish = (
+  postId: string,
+  commentId: string
+): RemoveComment => ({
+  type: type.UNPUBLISH_COMMENT,
   payload: {
-    id
+    id: commentId,
+    parentId: postId
   }
 });
 
 /** vote on comment action creator */
 export const vote = (id: string, like: boolean): VoteOnComment => ({
-  type: type.VOTE_COMMENT,
+  type: type.VOTE_ON_COMMENT,
   payload: {
     id,
     like

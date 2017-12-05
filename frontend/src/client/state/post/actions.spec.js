@@ -1,6 +1,6 @@
-import { create, edit, remove, vote, type } from "./actions";
+import { publish, edit, unpublish, vote, type } from "./actions";
 
-const { CREATE_POST, EDIT_POST, REMOVE_POST, VOTE_POST } = type;
+const { PUBLISH_POST, EDIT_POST, UNPUBLISH_POST, VOTE_ON_POST } = type;
 
 const id = "1",
   body = "body",
@@ -11,14 +11,14 @@ const id = "1",
 
 describe("post action creators", () => {
   it('should create a "create post" action', () => {
-    const action = create({
+    const action = publish({
       body,
       author,
       title,
       category
     });
     expect(action).toEqual({
-      type: CREATE_POST,
+      type: PUBLISH_POST,
       payload: {
         body,
         author,
@@ -48,9 +48,9 @@ describe("post action creators", () => {
   });
 
   it('should create a "remove post" action', () => {
-    const action = remove(id);
+    const action = unpublish(id);
     expect(action).toEqual({
-      type: REMOVE_POST,
+      type: UNPUBLISH_POST,
       payload: { id }
     });
   });
@@ -58,7 +58,7 @@ describe("post action creators", () => {
   it('should create a "vote on post" action', () => {
     const action = vote(id, true);
     expect(action).toEqual({
-      type: VOTE_POST,
+      type: VOTE_ON_POST,
       payload: { id, like: true }
     });
   });

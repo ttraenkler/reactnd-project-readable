@@ -22,7 +22,7 @@ class Posts extends Component<Props> {
           )
           .map(post => (
             <div
-              key={post.id}
+              key={`${post.id}${post.timestamp}`}
               style={{
                 borderTop: "solid 1px #EEE",
                 maxWidth: "600px"

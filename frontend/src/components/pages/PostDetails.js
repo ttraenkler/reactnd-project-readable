@@ -31,12 +31,12 @@ class PostDetails extends Component<Props> {
 
   render() {
     const { loaded } = this.state;
-    const { post, comments } = this.props;
+    const { id, post, comments } = this.props;
     // TODO: edit / delete controls
     return (
       <div>
         {loaded ? <Post post={post} /> : null}
-        {loaded ? <Comments comments={comments} /> : null}
+        {loaded ? <Comments postId={id} comments={comments} /> : null}
       </div>
     );
   }
@@ -44,12 +44,12 @@ class PostDetails extends Component<Props> {
 
 export default connect(
   (state, ownProps) => {
-    const postId = ownProps.match.params.id;
+    const { id } = ownProps.match.params;
     return {
-      id: postId,
-      post: state.posts[postId],
-      comments: state.posts[postId]
-        ? state.posts[postId].comments
+      id,
+      post: state.posts[id],
+      comments: state.posts[id]
+        ? state.posts[id].comments
             .map(commentId => state.comments[commentId])
             .sort((a, b) => b.voteScore - a.voteScore)
         : []

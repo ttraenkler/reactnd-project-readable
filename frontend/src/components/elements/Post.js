@@ -24,10 +24,11 @@ class Post extends Component {
   };
 
   onEdit = () => {
-    console.log("Post::onEdit");
+    console.log("Post::onEdit"); // TODO: implement
   };
 
   onDelete = async () => {
+    // TODO: implement
     await this.props.unpublish(this.props.post.id);
     await this.setState({ deleted: true });
     console.log("Post::onDelete");
@@ -50,20 +51,17 @@ class Post extends Component {
     return (
       <div key={id}>
         <h2>{title}</h2>
-        <div className="post-header">
-          {author} {formatDate(timestamp)}{" "}
-          <Vote votes={voteScore} onVote={this.onVote}>
-            Category: {category}
-          </Vote>
-          <span style={{ marginLeft: 5 }}>Comments: {commentCount}</span>{" "}
-          <span style={{ fontSize: 20 }}>
-            <Link to={`/post/edit/${id}`}>
-              <EditButton />
-            </Link>{" "}
-            <DeleteButton onClick={this.onDelete} />
-          </span>
-        </div>
         <div className="post-body">{body}</div>
+        <div className="post-header">
+          {author} {formatDate(timestamp)} Category: {category}
+          <br />
+          <Vote votes={voteScore} onVote={this.onVote} />
+          <span style={{ marginLeft: 5 }}>Comments: {commentCount}</span>{" "}
+          <Link to={`/post/edit/${id}`}>
+            <EditButton />
+          </Link>{" "}
+          <DeleteButton onClick={this.onDelete} />
+        </div>
       </div>
     );
   }
@@ -73,6 +71,7 @@ export default connect(
   state => ({}),
   dispatch => ({
     vote: async (postId: string, like: boolean) => {
+      console.log("vote");
       dispatch(await post.vote(postId, like));
     },
     unpublish: async (postId: string) => {

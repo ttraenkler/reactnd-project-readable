@@ -1,4 +1,4 @@
-import { create, edit, remove, type } from "./actions";
+import { publish, edit, unpublish, type } from "./actions";
 
 const id = "1",
   parentId = "1",
@@ -7,12 +7,13 @@ const id = "1",
 
 describe("comment action creators", () => {
   it('should create a "create comment" action', () => {
-    const action = create(parentId, {
+    const action = publish({
+      parentId,
       body,
       author
     });
     expect(action).toEqual({
-      type: type.CREATE_COMMENT,
+      type: type.PUBLISH_COMMENT,
       payload: {
         parentId,
         body,
@@ -37,10 +38,10 @@ describe("comment action creators", () => {
   });
 
   it('should create a "remove comment" action', () => {
-    const action = remove("1");
+    const action = unpublish("1", "1");
     expect(action).toEqual({
-      type: type.REMOVE_COMMENT,
-      payload: { id: "1" }
+      type: type.UNPUBLISH_COMMENT,
+      payload: { id: "1", parentId: "1" }
     });
   });
 });
